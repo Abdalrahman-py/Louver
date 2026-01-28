@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Louver</string>
+    <string name="splash_louver">LOUVER</string>
+    <string name="welcome_to_louver">Welcome to Louver</string>
 </resources>
