@@ -6,4 +6,10 @@
     </style>
 
     <style name="Theme.Louver" parent="Base.Theme.Louver" />
+
+    <style name="Theme.Louver.Splash" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">#0F172A</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="postSplashScreenTheme">@style/Theme.Louver</item>
+    </style>
 </resources>

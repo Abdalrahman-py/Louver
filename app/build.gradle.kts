@@ -1,3 +1,4 @@
+
 plugins {
     alias(libs.plugins.android.application)
 }
@@ -14,6 +15,10 @@ android {
         versionName = "1.0"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        viewBinding = true
     }
 
     buildTypes {
@@ -43,6 +48,11 @@ dependencies {
     
     // LiveData
     implementation(libs.lifecycle.livedata)
+
+    implementation("androidx.cardview:cardview:1.0.0")
+    implementation("androidx.recyclerview:recyclerview:1.2.1")
+    implementation("com.google.android.material:material:1.4.0")
+    implementation("androidx.core:core-splashscreen:1.0.1")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
