@@ -11,15 +11,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.louver.data.entity.CarEntity;
 import com.example.louver.databinding.ItemCarBinding;
 
+import java.util.Objects;
+import java.util.function.Consumer;
+
 public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
 
-    public interface OnCarClick {
-        void onClick(CarEntity car);
-    }
+    private final Consumer<CarEntity> onCarClick;
 
-    private final OnCarClick onCarClick;
-
-    public CarAdapter(OnCarClick onCarClick) {
+    public CarAdapter(Consumer<CarEntity> onCarClick) {
         super(DIFF);
         this.onCarClick = onCarClick;
     }
@@ -32,35 +31,35 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
                 parent,
                 false
         );
-        return new VH(binding);
+        return new VH(binding, onCarClick);
     }
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        CarEntity car = getItem(position);
-        holder.bind(car, onCarClick);
+        holder.bind(getItem(position));
     }
 
-    static class VH extends RecyclerView.ViewHolder {
+    class VH extends RecyclerView.ViewHolder {
         private final ItemCarBinding binding;
 
-        VH(ItemCarBinding binding) {
+        VH(ItemCarBinding binding, Consumer<CarEntity> click) {
             super(binding.getRoot());
             this.binding = binding;
+            binding.getRoot().setOnClickListener(v -> {
+                int pos = getBindingAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION && click != null) {
+                    click.accept(getItem(pos));
+                }
+            });
         }
 
-        void bind(CarEntity car, OnCarClick click) {
+        void bind(CarEntity car) {
             binding.carName.setText(car.name);
-            binding.carModel.setText(car.model + " • " + car.year);
-            binding.carPrice.setText(String.valueOf(car.dailyPrice) + " / day");
-            binding.carMeta.setText(
-                    car.seats + " seats • " + car.transmission.name() + " • " + car.fuelType.name()
-            );
+            binding.carModel.setText(String.format("%s • %d", car.model, car.year));
+            binding.carPrice.setText(String.format("$%.2f / day", car.dailyPrice));
+            binding.carMeta.setText(String.format("%d seats • %s • %s",
+                    car.seats, car.transmission, car.fuelType));
             binding.availability.setText(car.isAvailable ? "Available" : "Not available");
-
-            binding.getRoot().setOnClickListener(v -> {
-                if (click != null) click.onClick(car);
-            });
         }
     }
 
@@ -74,22 +73,18 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
                 @Override
                 public boolean areContentsTheSame(@NonNull CarEntity oldItem, @NonNull CarEntity newItem) {
                     return oldItem.categoryId == newItem.categoryId
-                            && safeEq(oldItem.name, newItem.name)
-                            && safeEq(oldItem.model, newItem.model)
+                            && Objects.equals(oldItem.name, newItem.name)
+                            && Objects.equals(oldItem.model, newItem.model)
                             && oldItem.year == newItem.year
                             && oldItem.dailyPrice == newItem.dailyPrice
                             && oldItem.isAvailable == newItem.isAvailable
                             && oldItem.transmission == newItem.transmission
                             && oldItem.fuelType == newItem.fuelType
                             && oldItem.seats == newItem.seats
-                            && safeEq(oldItem.fuelConsumption, newItem.fuelConsumption)
-                            && safeEq(oldItem.description, newItem.description)
-                            && safeEq(oldItem.mainImageUrl, newItem.mainImageUrl)
+                            && Objects.equals(oldItem.fuelConsumption, newItem.fuelConsumption)
+                            && Objects.equals(oldItem.description, newItem.description)
+                            && Objects.equals(oldItem.mainImageUrl, newItem.mainImageUrl)
                             && oldItem.createdAt == newItem.createdAt;
-                }
-
-                private boolean safeEq(Object a, Object b) {
-                    return a == b || (a != null && a.equals(b));
                 }
             };
 }

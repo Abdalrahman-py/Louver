@@ -6,8 +6,12 @@ import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
 
+import com.example.louver.data.auth.AuthRepository;
+import com.example.louver.data.auth.SessionManager;
+import com.example.louver.data.db.AppDatabase;
 import com.example.louver.data.entity.CarEntity;
 import com.example.louver.data.entity.CategoryEntity;
+import com.example.louver.data.entity.UserEntity;
 import com.example.louver.data.repository.CarRepository;
 import com.example.louver.data.repository.CategoryRepository;
 import com.example.louver.data.repository.RepositoryProvider;
@@ -23,6 +27,7 @@ import java.util.List;
  */
 public class HomeViewModel extends AndroidViewModel {
 
+    private final AuthRepository authRepository;
     private final CategoryRepository categoryRepository;
     private final CarRepository carRepository;
 
@@ -33,9 +38,19 @@ public class HomeViewModel extends AndroidViewModel {
         super(application);
         categoryRepository = RepositoryProvider.categories(application);
         carRepository = RepositoryProvider.cars(application);
+        authRepository = RepositoryProvider.auth(application);
+
 
         categories = categoryRepository.getAll();
         cars = carRepository.getAllCars();
+    }
+
+    public LiveData<UserEntity> currentUser() {
+        return authRepository.currentUser();
+    }
+
+    public void logout() {
+        authRepository.logout();
     }
 
     public LiveData<List<CategoryEntity>> getCategories() {

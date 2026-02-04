@@ -2,6 +2,8 @@ package com.example.louver.data.repository;
 
 import android.content.Context;
 
+import com.example.louver.data.auth.AuthRepository;
+import com.example.louver.data.auth.SessionManager;
 import com.example.louver.data.db.AppDatabase;
 
 /**
@@ -9,6 +11,8 @@ import com.example.louver.data.db.AppDatabase;
  * Keeps repository creation in one place.
  */
 public final class RepositoryProvider {
+
+    private static volatile AuthRepository authRepository;
 
     private static volatile UserRepository userRepository;
     private static volatile CategoryRepository categoryRepository;
@@ -20,6 +24,18 @@ public final class RepositoryProvider {
     private static volatile NotificationRepository notificationRepository;
 
     private RepositoryProvider() {}
+
+    public static AuthRepository auth(Context context) {
+        if (authRepository == null) {
+            synchronized (RepositoryProvider.class) {
+                if (authRepository == null) {
+                    SessionManager sm = new SessionManager(context);
+                    authRepository = new AuthRepository(AppDatabase.getInstance(context), sm);
+                }
+            }
+        }
+        return authRepository;
+    }
 
     public static UserRepository user(Context context) {
         if (userRepository == null) {

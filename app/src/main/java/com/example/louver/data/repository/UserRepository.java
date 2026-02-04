@@ -19,7 +19,7 @@ public class UserRepository {
         return db.userDao().getById(id);
     }
 
-    public LiveData<UserEntity> getByEmail(String email) {
+    public UserEntity getByEmail(String email) {
         return db.userDao().getByEmail(email);
     }
 

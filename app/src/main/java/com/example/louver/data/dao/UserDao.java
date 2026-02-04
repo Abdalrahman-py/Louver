@@ -23,8 +23,11 @@ public interface UserDao {
     @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
     LiveData<UserEntity> getById(long id);
 
+    @Query("SELECT * FROM users WHERE id = :id LIMIT 1")
+    LiveData<UserEntity> observeById(long id);
+
     @Query("SELECT * FROM users WHERE email = :email LIMIT 1")
-    LiveData<UserEntity> getByEmail(String email);
+    UserEntity getByEmail(String email);
 
     @Query("SELECT * FROM users ORDER BY createdAt DESC")
     LiveData<List<UserEntity>> getAll();

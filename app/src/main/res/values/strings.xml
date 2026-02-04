@@ -2,4 +2,7 @@
     <string name="app_name">Louver</string>
     <string name="splash_louver">LOUVER</string>
     <string name="welcome_to_louver">Welcome to Louver</string>
+    <string name="search_cars">Search cars</string>
+    <string name="search">search</string>
+    <string name="reset">reset</string>
 </resources>
