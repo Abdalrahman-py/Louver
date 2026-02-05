@@ -6,12 +6,14 @@ import android.content.SharedPreferences;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
+import com.example.louver.data.converter.UserRole;
+
 public class SessionManager {
 
     private static final String PREFS_NAME = "louver_session_prefs";
     private static final String KEY_USER_ID = "logged_in_user_id";
     private static final String KEY_EMAIL = "logged_in_email"; // optional
-
+    private static final String KEY_ROLE = "logged_in_role";
     private final SharedPreferences prefs;
 
     public SessionManager(@NonNull Context context) {
@@ -19,27 +21,36 @@ public class SessionManager {
                 .getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE);
     }
 
-    public void saveUserSession(long userId) {
-        prefs.edit()
-                .putLong(KEY_USER_ID, userId)
-                .apply();
-    }
-
-    public void saveUserSession(long userId, @Nullable String email) {
+    public void saveUserSession(long userId, @NonNull UserRole role, @Nullable String email) {
         SharedPreferences.Editor editor = prefs.edit()
-                .putLong(KEY_USER_ID, userId);
+                .putLong(KEY_USER_ID, userId)
+                .putString(KEY_ROLE, role.name());
+
         if (email != null) {
             editor.putString(KEY_EMAIL, email);
         }
         editor.apply();
     }
 
+    @NonNull
+    public UserRole getRole() {
+        String roleStr = prefs.getString(KEY_ROLE, UserRole.USER.name());
+        return UserRole.valueOf(roleStr);
+    }
+
+    public boolean isAdmin() {
+        return getRole() == UserRole.ADMIN;
+    }
+
+
     public void clearSession() {
         prefs.edit()
                 .remove(KEY_USER_ID)
                 .remove(KEY_EMAIL)
+                .remove(KEY_ROLE)
                 .apply();
     }
+
 
     public boolean isLoggedIn() {
         return getUserId() > 0L;

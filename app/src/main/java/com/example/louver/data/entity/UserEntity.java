@@ -1,10 +1,13 @@
 package com.example.louver.data.entity;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
+
+import com.example.louver.data.converter.UserRole;
 
 @Entity(
         tableName = "users",
@@ -36,6 +39,11 @@ public class UserEntity {
 
     @ColumnInfo(name = "createdAt")
     public long createdAt;
+
+    @ColumnInfo(name = "role")
+    @NonNull
+    public UserRole role;
+
 
     public UserEntity() {}
 
