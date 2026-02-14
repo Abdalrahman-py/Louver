@@ -9,7 +9,6 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Transformations;
 
-import com.example.louver.data.converter.UserRole;
 import com.example.louver.data.db.AppDatabase;
 import com.example.louver.data.dao.UserDao;
 import com.example.louver.data.entity.UserEntity;
@@ -20,6 +19,7 @@ import java.util.concurrent.Executors;
 
 public class AuthRepository {
 
+    private final AppDatabase db;
     private final UserDao userDao;
     private final SessionManager sessionManager;
     private final ExecutorService io;
@@ -29,6 +29,7 @@ public class AuthRepository {
     private final LiveData<Boolean> loggedInLive;
 
     public AuthRepository(@NonNull AppDatabase db, @NonNull SessionManager sessionManager) {
+        this.db = db;
         this.userDao = db.userDao();
         this.sessionManager = sessionManager;
         this.io = Executors.newSingleThreadExecutor();
@@ -45,18 +46,6 @@ public class AuthRepository {
         });
 
         loggedInLive = Transformations.map(currentUserId, id -> id != null && id > 0L);
-
-        io.execute(() -> {
-            if (userDao.countAdmins() == 0) {
-                UserEntity admin = new UserEntity();
-                admin.fullName = "Admin";
-                admin.email = "admin@louver.com";
-                admin.passwordHash = PasswordHasher.hashPassword("admin123".toCharArray());
-                admin.role = UserRole.ADMIN;
-                admin.createdAt = System.currentTimeMillis();
-                userDao.insert(admin);
-            }
-        });
     }
 
     public LiveData<Boolean> isLoggedInLive() {
@@ -79,7 +68,6 @@ public class AuthRepository {
     ) {
         MutableLiveData<AuthResult> result = new MutableLiveData<>();
         io.execute(() -> {
-            sessionManager.clearSession();
             String normEmail = normalizeEmail(email);
             if (normEmail.isEmpty()) {
                 wipe(password);
@@ -99,13 +87,12 @@ public class AuthRepository {
             user.email = normEmail;
             user.phone = (phone == null || phone.trim().isEmpty()) ? null : phone.trim();
             user.createdAt = System.currentTimeMillis();
-            user.role = UserRole.USER;
 
             user.passwordHash = PasswordHasher.hashPassword(password); // wipes password internally
 
             try {
                 long id = userDao.insert(user);
-                sessionManager.saveUserSession(id, UserRole.USER, normEmail);
+                sessionManager.saveUserSession(id, normEmail);
                 currentUserId.postValue(id);
                 result.postValue(AuthResult.ok());
             } catch (SQLiteConstraintException e) {
@@ -140,7 +127,7 @@ public class AuthRepository {
                 return;
             }
 
-            sessionManager.saveUserSession(user.id, user.role, normEmail);
+            sessionManager.saveUserSession(user.id, normEmail);
             currentUserId.postValue(user.id);
             result.postValue(AuthResult.ok());
         });

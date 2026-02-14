@@ -2,15 +2,12 @@ package com.example.louver.data.repository;
 
 import androidx.lifecycle.LiveData;
 
-import com.example.louver.data.converter.UserRole;
 import com.example.louver.data.db.AppDatabase;
 import com.example.louver.data.entity.CarEntity;
 import com.example.louver.data.relation.CarWithImages;
 import com.example.louver.data.relation.CarWithReviews;
-import com.example.louver.data.util.RepoResult;
 
 import java.util.List;
-
 
 public class CarRepository {
 
@@ -67,67 +64,12 @@ public class CarRepository {
             if (callback != null) callback.onComplete(id);
         });
     }
-    public void addCar(
-            CarEntity car,
-            UserRole role,
-            DbCallback<RepoResult<Long>> callback
-    ) {
-        if (role != UserRole.ADMIN) {
-            if (callback != null) {
-                callback.onComplete(RepoResult.error("Unauthorized"));
-            }
-            return;
-        }
 
-        AppDatabase.DB_EXECUTOR.execute(() -> {
-            long id = db.carDao().insert(car);
-            if (callback != null) {
-                callback.onComplete(RepoResult.success(id));
-            }
-        });
+    public void update(CarEntity car) {
+        AppDatabase.DB_EXECUTOR.execute(() -> db.carDao().update(car));
     }
 
-
-
-    public void update(
-            CarEntity car,
-            UserRole role,
-            DbCallback<RepoResult<Void>> callback
-    ) {
-        if (role != UserRole.ADMIN) {
-            if (callback != null) {
-                callback.onComplete(RepoResult.error("Unauthorized"));
-            }
-            return;
-        }
-
-        AppDatabase.DB_EXECUTOR.execute(() -> {
-            db.carDao().update(car);
-            if (callback != null) {
-                callback.onComplete(RepoResult.success(null));
-            }
-        });
+    public void delete(CarEntity car) {
+        AppDatabase.DB_EXECUTOR.execute(() -> db.carDao().delete(car));
     }
-
-    public void delete(
-            CarEntity car,
-            UserRole role,
-            DbCallback<RepoResult<Void>> callback
-    ) {
-        if (role != UserRole.ADMIN) {
-            if (callback != null) {
-                callback.onComplete(RepoResult.error("Unauthorized"));
-            }
-            return;
-        }
-
-        AppDatabase.DB_EXECUTOR.execute(() -> {
-            db.carDao().delete(car);
-            if (callback != null) {
-                callback.onComplete(RepoResult.success(null));
-            }
-        });
-    }
-
-
 }

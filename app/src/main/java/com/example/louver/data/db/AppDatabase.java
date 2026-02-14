@@ -28,34 +28,39 @@ import com.example.louver.data.entity.FavoriteEntity;
 import com.example.louver.data.entity.NotificationEntity;
 import com.example.louver.data.entity.ReviewEntity;
 import com.example.louver.data.entity.UserEntity;
-import com.example.louver.data.seed.AdminSeeder;
 import com.example.louver.data.seed.SeedData;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {UserEntity.class, CategoryEntity.class, CarEntity.class, CarImageEntity.class, BookingEntity.class, FavoriteEntity.class, ReviewEntity.class, AppSettingsEntity.class, NotificationEntity.class}, version = 2, exportSchema = false)
+@Database(
+        entities = {
+                UserEntity.class,
+                CategoryEntity.class,
+                CarEntity.class,
+                CarImageEntity.class,
+                BookingEntity.class,
+                FavoriteEntity.class,
+                ReviewEntity.class,
+                AppSettingsEntity.class,
+                NotificationEntity.class
+        },
+        version = 1,
+        exportSchema = false
+)
 @TypeConverters({AppTypeConverters.class})
 public abstract class AppDatabase extends RoomDatabase {
 
     private static volatile AppDatabase INSTANCE;
 
     public abstract UserDao userDao();
-
     public abstract CategoryDao categoryDao();
-
     public abstract CarDao carDao();
-
     public abstract CarImageDao carImageDao();
-
     public abstract BookingDao bookingDao();
-
     public abstract FavoriteDao favoriteDao();
-
     public abstract ReviewDao reviewDao();
-
     public abstract SettingsDao settingsDao();
-
     public abstract NotificationDao notificationDao();
 
     // Single-thread executor for DB operations & seeding
@@ -65,18 +70,19 @@ public abstract class AppDatabase extends RoomDatabase {
         if (INSTANCE == null) {
             synchronized (AppDatabase.class) {
                 if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(context.getApplicationContext(), AppDatabase.class, "louver_db").addCallback(new Callback() {
-
-                        @Override
-                        public void onCreate(@NonNull SupportSQLiteDatabase db) {
-                            super.onCreate(db);
-                            DB_EXECUTOR.execute(() -> {
-                                SeedData.seed(INSTANCE);
-                            });
-                        }
-
-                    })
-                            .fallbackToDestructiveMigration()
+                    INSTANCE = Room.databaseBuilder(
+                                    context.getApplicationContext(),
+                                    AppDatabase.class,
+                                    "louver_db"
+                            )
+                            .addCallback(new Callback() {
+                                @Override
+                                public void onCreate(@NonNull SupportSQLiteDatabase db) {
+                                    super.onCreate(db);
+                                    // Seed on background thread after DB is created
+                                    DB_EXECUTOR.execute(() -> SeedData.seed(AppDatabase.getInstance(context)));
+                                }
+                            })
                             .build();
                 }
             }

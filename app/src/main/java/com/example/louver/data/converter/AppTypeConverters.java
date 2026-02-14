@@ -47,14 +47,4 @@ public class AppTypeConverters {
     public static NotificationType stringToNotificationType(String value) {
         return value == null ? null : NotificationType.valueOf(value);
     }
-    @TypeConverter
-    public static String fromRole(UserRole role) {
-        return role == null ? null : role.name();
-    }
-
-    @TypeConverter
-    public static UserRole toRole(String role) {
-        return role == null ? UserRole.USER : UserRole.valueOf(role);
-    }
-
 }

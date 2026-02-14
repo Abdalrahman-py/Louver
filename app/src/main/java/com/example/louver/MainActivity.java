@@ -4,15 +4,12 @@ import androidx.core.splashscreen.SplashScreen;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.louver.data.auth.SessionManager;
-import com.example.louver.data.dao.UserDao;
-import com.example.louver.data.seed.AdminSeeder;
 import com.example.louver.ui.auth.AuthActivity;
 import com.example.louver.ui.home.HomeFragment;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -20,22 +17,20 @@ import com.google.android.material.appbar.MaterialToolbar;
 public class MainActivity extends AppCompatActivity {
 
     private static final int MENU_LOGOUT_ID = 1001;
-
-    private UserDao userDao;
     private SessionManager sessionManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SplashScreen.installSplashScreen(this);
-        sessionManager = new SessionManager(this);
         super.onCreate(savedInstanceState);
+        sessionManager = new SessionManager(this);
 
         if (!sessionManager.isLoggedIn()) {
             Intent i = new Intent(this, AuthActivity.class);
             i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
             startActivity(i);
             finish();
-            return; // IMPORTANT: stop here
+            return;
         }
 
         setContentView(R.layout.activity_main);
@@ -47,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.mainContainer, new HomeFragment()).commit();
         }
-        Log.d("SESSION", "role=" + sessionManager.getRole());
+
     }
 
     // Toolbar menu
@@ -76,6 +71,5 @@ public class MainActivity extends AppCompatActivity {
         i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         startActivity(i);
         finish();
-    }
-}
+    }}
 

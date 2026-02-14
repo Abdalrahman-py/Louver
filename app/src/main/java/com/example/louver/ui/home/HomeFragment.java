@@ -12,7 +12,9 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
+import com.example.louver.R;
 import com.example.louver.databinding.FragmentHomeBinding;
+import com.example.louver.ui.booking.BookingFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -42,6 +44,15 @@ public class HomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+
+        viewModel.getWelcomeGreeting().observe(getViewLifecycleOwner(), greeting -> {
+            if (greeting == null || greeting.trim().isEmpty()) {
+                binding.titleText.setVisibility(View.GONE);
+            } else {
+                binding.titleText.setVisibility(View.VISIBLE);
+                binding.titleText.setText(greeting);
+            }
+        });
 
         setupLists();
         setupActions();
@@ -85,8 +96,18 @@ public class HomeFragment extends Fragment {
         );
 
         carAdapter = new CarAdapter(car -> {
-            // Later: navigate to details screen
-            Toast.makeText(requireContext(), "Open details: " + car.name, Toast.LENGTH_SHORT).show();
+            // Navigate to BookingFragment with carId
+            BookingFragment bookingFragment = new BookingFragment();
+
+            Bundle args = new Bundle();
+            args.putLong("carId", car.id);
+            bookingFragment.setArguments(args);
+
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(getId(), bookingFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
         binding.carsRecycler.setAdapter(carAdapter);
     }

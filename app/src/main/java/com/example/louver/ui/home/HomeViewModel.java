@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.louver.data.auth.AuthRepository;
 import com.example.louver.data.auth.SessionManager;
@@ -34,6 +35,9 @@ public class HomeViewModel extends AndroidViewModel {
     private LiveData<List<CategoryEntity>> categories;
     private LiveData<List<CarEntity>> cars;
 
+    // Welcome greeting to display on Home screen
+    private final LiveData<String> welcomeGreeting;
+
     public HomeViewModel(@NonNull Application application) {
         super(application);
         categoryRepository = RepositoryProvider.categories(application);
@@ -43,10 +47,22 @@ public class HomeViewModel extends AndroidViewModel {
 
         categories = categoryRepository.getAll();
         cars = carRepository.getAllCars();
+
+        // Map current user to a welcome greeting string
+        welcomeGreeting = Transformations.map(authRepository.currentUser(), user -> {
+            if (user == null) return "Welcome";
+            String name = user.fullName == null ? "" : user.fullName.trim();
+            if (name.isEmpty()) return "Welcome";
+            return "Welcome, " + name;
+        });
     }
 
     public LiveData<UserEntity> currentUser() {
         return authRepository.currentUser();
+    }
+
+    public LiveData<String> getWelcomeGreeting() {
+        return welcomeGreeting;
     }
 
     public void logout() {

@@ -17,10 +17,16 @@ import java.util.function.Consumer;
 public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
 
     private final Consumer<CarEntity> onCarClick;
+    private final Consumer<Long> onBookClick;
 
     public CarAdapter(Consumer<CarEntity> onCarClick) {
+        this(onCarClick, null);
+    }
+
+    public CarAdapter(Consumer<CarEntity> onCarClick, Consumer<Long> onBookClick) {
         super(DIFF);
         this.onCarClick = onCarClick;
+        this.onBookClick = onBookClick;
     }
 
     @NonNull
@@ -31,7 +37,7 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
                 parent,
                 false
         );
-        return new VH(binding, onCarClick);
+        return new VH(binding, onCarClick, onBookClick);
     }
 
     @Override
@@ -42,13 +48,20 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
     class VH extends RecyclerView.ViewHolder {
         private final ItemCarBinding binding;
 
-        VH(ItemCarBinding binding, Consumer<CarEntity> click) {
+        VH(ItemCarBinding binding, Consumer<CarEntity> click, Consumer<Long> bookClick) {
             super(binding.getRoot());
             this.binding = binding;
             binding.getRoot().setOnClickListener(v -> {
                 int pos = getBindingAdapterPosition();
                 if (pos != RecyclerView.NO_POSITION && click != null) {
                     click.accept(getItem(pos));
+                }
+            });
+
+            binding.btnBook.setOnClickListener(v -> {
+                int pos = getBindingAdapterPosition();
+                if (pos != RecyclerView.NO_POSITION && bookClick != null) {
+                    bookClick.accept(getItem(pos).id);
                 }
             });
         }

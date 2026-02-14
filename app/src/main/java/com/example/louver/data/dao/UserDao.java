@@ -35,7 +35,4 @@ public interface UserDao {
     // For background-thread / synchronous example usage only
     @Query("SELECT * FROM users WHERE id = :userId LIMIT 1")
     UserEntity getUserByIdNow(long userId);
-
-    @Query("SELECT COUNT(*) FROM users WHERE role = 'ADMIN'")
-    int countAdmins();
 }

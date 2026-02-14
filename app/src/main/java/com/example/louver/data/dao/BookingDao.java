@@ -54,4 +54,7 @@ public interface BookingDao {
     default boolean hasOverlappingActiveBooking(long carId, long pickupAt, long returnAt) {
         return hasOverlappingActiveBookingInternal(carId, pickupAt, returnAt) == 1;
     }
+
+    @Query("SELECT * FROM bookings WHERE id = :bookingId LIMIT 1")
+    BookingEntity getBookingByIdNow(long bookingId);
 }

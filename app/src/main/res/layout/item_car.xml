@@ -51,6 +51,13 @@
             android:text="Available"
             android:layout_marginTop="2dp"/>
 
+        <Button
+            android:id="@+id/btn_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Book"
+            android:layout_marginTop="12dp"/>
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

@@ -1,7 +1,11 @@
 package com.example.louver.data.repository;
 
+import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
+import com.example.louver.data.calculator.BookingCalculator;
+import com.example.louver.data.calculator.BookingCalculationResult;
+import com.example.louver.data.converter.BookingStatus;
 import com.example.louver.data.db.AppDatabase;
 import com.example.louver.data.entity.BookingEntity;
 import com.example.louver.data.relation.BookingFullDetails;
@@ -39,6 +43,96 @@ public class BookingRepository {
         });
     }
 
+    /**
+     * Place a booking: fetch car, validate, calculate, insert, and update availability.
+     *
+     * This method handles the complete booking placement flow:
+     * 1. Fetch CarEntity by carId (synchronous) to get dailyPrice and isAvailable
+     * 2. Check if car exists and is available
+     * 3. Call BookingCalculator.validateAndCalculate() for time/price validation
+     * 4. Insert BookingEntity with computed daysCount and totalPrice
+     * 5. Update car availability to false (booked)
+     * 6. Return PlaceBookingResult with bookingId, daysCount, and totalPrice
+     *
+     * @param userId              User placing the booking
+     * @param carId               Car being booked
+     * @param pickupEpochMillis   Pickup time (milliseconds since epoch)
+     * @param returnEpochMillis   Return time (milliseconds since epoch)
+     * @param callback            Result callback with booking details on success, or error message on failure
+     */
+    public void placeBooking(
+            long userId,
+            long carId,
+            long pickupEpochMillis,
+            long returnEpochMillis,
+            @NonNull DbCallback<PlaceBookingResult> callback
+    ) {
+        AppDatabase.DB_EXECUTOR.execute(() -> {
+            // Step 1: Fetch car by ID (synchronous DAO method)
+            com.example.louver.data.entity.CarEntity car = db.carDao().getCarByIdNow(carId);
+
+            if (car == null) {
+                if (callback != null) {
+                    callback.onComplete(PlaceBookingResult.error("Car not found"));
+                }
+                return;
+            }
+
+            // Step 2: Check car availability
+            if (!car.isAvailable) {
+                if (callback != null) {
+                    callback.onComplete(PlaceBookingResult.error("Car is not available"));
+                }
+                return;
+            }
+
+            // Step 3: Validate time range and calculate days/price
+            BookingCalculationResult calc = BookingCalculator.validateAndCalculate(
+                    pickupEpochMillis,
+                    returnEpochMillis,
+                    car.dailyPrice
+            );
+
+            if (!calc.isValid) {
+                if (callback != null) {
+                    callback.onComplete(PlaceBookingResult.error(calc.errorMessage));
+                }
+                return;
+            }
+
+            // Step 4: Create and insert booking entity with computed values
+            BookingEntity booking = new BookingEntity(
+                    userId,
+                    carId,
+                    pickupEpochMillis,
+                    returnEpochMillis,
+                    (int) calc.daysCount,
+                    car.dailyPrice,
+                    calc.totalPrice,
+                    BookingStatus.ACTIVE,
+                    System.currentTimeMillis(),
+                    null
+            );
+
+            try {
+                long bookingId = db.bookingDao().insert(booking);
+
+                // Step 5: Update car availability to false (booked)
+                car.isAvailable = false;
+                db.carDao().update(car);
+
+                // Step 6: Return success with booking details
+                if (callback != null) {
+                    callback.onComplete(PlaceBookingResult.success(bookingId, calc.daysCount, calc.totalPrice));
+                }
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.onComplete(PlaceBookingResult.error("Failed to place booking: " + e.getMessage()));
+                }
+            }
+        });
+    }
+
     public void updateBooking(BookingEntity booking) {
         AppDatabase.DB_EXECUTOR.execute(() -> db.bookingDao().update(booking));
     }
@@ -55,6 +149,51 @@ public class BookingRepository {
         AppDatabase.DB_EXECUTOR.execute(() -> {
             boolean overlap = db.bookingDao().hasOverlappingActiveBooking(carId, pickupAt, returnAt);
             if (callback != null) callback.onComplete(overlap);
+        });
+    }
+
+    /**
+     * Cancel a booking and restore car availability.
+     *
+     * @param bookingId ID of booking to cancel
+     * @param callback  Result callback with success/error
+     */
+    public void cancelBooking(long bookingId, DbCallback<CancellationResult> callback) {
+        AppDatabase.DB_EXECUTOR.execute(() -> {
+            try {
+                // Step 1: Fetch booking by ID
+                BookingEntity booking = db.bookingDao().getBookingByIdNow(bookingId);
+
+                if (booking == null) {
+                    if (callback != null) {
+                        callback.onComplete(CancellationResult.error("Booking not found"));
+                    }
+                    return;
+                }
+
+                // Step 2: Set booking status to CANCELLED
+                booking.status = BookingStatus.CANCELLED;
+                booking.updatedAt = System.currentTimeMillis();
+
+                // Step 3: Update booking in database
+                db.bookingDao().update(booking);
+
+                // Step 4: Restore car availability
+                com.example.louver.data.entity.CarEntity car = db.carDao().getCarByIdNow(booking.carId);
+                if (car != null) {
+                    car.isAvailable = true;
+                    db.carDao().update(car);
+                }
+
+                // Step 5: Return success
+                if (callback != null) {
+                    callback.onComplete(CancellationResult.success("Booking cancelled successfully"));
+                }
+            } catch (Exception e) {
+                if (callback != null) {
+                    callback.onComplete(CancellationResult.error("Failed to cancel booking: " + e.getMessage()));
+                }
+            }
         });
     }
 }

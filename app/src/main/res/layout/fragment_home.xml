@@ -8,7 +8,7 @@
     android:layout_height="match_parent"
     android:padding="16dp">
 
-    <!-- Title  -->
+    <!-- Title (kept for preview / optional runtime use) -->
     <TextView
         android:id="@+id/titleText"
         android:layout_width="0dp"
@@ -26,6 +26,7 @@
 
     <!-- Search row -->
 
+    <!-- Categories -->
     <LinearLayout
         android:id="@+id/searchRow"
         android:layout_width="0dp"
@@ -63,7 +64,6 @@
             android:text="@string/reset" />
     </LinearLayout>
 
-    <!-- Categories -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/categoriesRecycler"
         android:layout_width="0dp"
