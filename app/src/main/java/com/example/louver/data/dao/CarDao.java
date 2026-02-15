@@ -70,6 +70,20 @@ public interface CarDao {
             Integer seats,
             Boolean availableOnly
     );
+    /**
+     * Combined search and filter query.
+     * Supports:
+     * - Text search on name/model (if searchQuery is not empty)
+     * - Category filtering (if categoryId is not null)
+     * - Availability filtering (if availableOnly is not null)
+     * All filters are combined with AND; null filters are ignored.
+     */
+    @Query("SELECT * FROM cars WHERE " +
+            "(:searchQuery = '' OR name LIKE '%' || :searchQuery || '%' OR model LIKE '%' || :searchQuery || '%') AND " +
+            "(:categoryId IS NULL OR categoryId = :categoryId) AND " +
+            "(:availableOnly IS NULL OR isAvailable = :availableOnly) " +
+            "ORDER BY createdAt DESC")
+    LiveData<List<CarEntity>> searchAndFilter(String searchQuery, Long categoryId, Boolean availableOnly);
 
     // For background-thread / synchronous example usage only
     @Query("SELECT * FROM cars WHERE id = :carId LIMIT 1")

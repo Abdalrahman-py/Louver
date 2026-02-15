@@ -13,6 +13,8 @@ import androidx.fragment.app.Fragment;
 
 import com.example.louver.databinding.FragmentBookingBinding;
 import com.example.louver.data.auth.SessionManager;
+import com.example.louver.data.calculator.BookingCalculator;
+import com.example.louver.data.calculator.BookingCalculationResult;
 import com.example.louver.data.repository.BookingRepository;
 import com.example.louver.data.repository.RepositoryProvider;
 
@@ -61,6 +63,9 @@ public class BookingFragment extends Fragment {
     }
 
     private void setupUI() {
+        // Load car details by carId
+        viewModel.loadCar(carId);
+
         // Select pickup date/time
         binding.btnSelectPickup.setOnClickListener(v -> showDateTimePickerForPickup());
 
@@ -72,15 +77,47 @@ public class BookingFragment extends Fragment {
         binding.btnConfirmBooking.setOnClickListener(v -> {
             if (pickupEpochMillis <= 0 || returnEpochMillis <= 0) {
                 binding.tvStatus.setText("Error: Set pickup and return times");
+                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
                 return;
             }
 
             if (carId <= 0) {
                 binding.tvStatus.setText("Error: Car ID not found");
+                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
                 return;
             }
 
-            viewModel.placeBooking(carId, pickupEpochMillis, returnEpochMillis);
+            // Validate return is after pickup
+            if (returnEpochMillis <= pickupEpochMillis) {
+                binding.tvStatus.setText("Error: Return time must be after pickup time");
+                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+                return;
+            }
+
+            // Get car to retrieve daily price
+            viewModel.getSelectedCar().observe(getViewLifecycleOwner(), car -> {
+                if (car == null) {
+                    binding.tvStatus.setText("Error: Car details not found");
+                    binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+                    return;
+                }
+
+                // Validate and calculate booking details
+                BookingCalculationResult calcResult = BookingCalculator.validateAndCalculate(
+                        pickupEpochMillis,
+                        returnEpochMillis,
+                        car.dailyPrice
+                );
+
+                if (!calcResult.isValid) {
+                    binding.tvStatus.setText("Error: " + calcResult.errorMessage);
+                    binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+                    return;
+                }
+
+                // Navigate to confirmation fragment with booking details
+                navigateToConfirmation(carId, pickupEpochMillis, returnEpochMillis, calcResult.daysCount, calcResult.totalPrice);
+            });
         });
     }
 
@@ -186,6 +223,24 @@ public class BookingFragment extends Fragment {
 
     private void updateConfirmButtonState() {
         binding.btnConfirmBooking.setEnabled(pickupEpochMillis > 0 && returnEpochMillis > 0);
+    }
+
+    private void navigateToConfirmation(long carId, long pickupMillis, long returnMillis, long daysCount, double totalPrice) {
+        Bundle args = new Bundle();
+        args.putLong("carId", carId);
+        args.putLong("pickupMillis", pickupMillis);
+        args.putLong("returnMillis", returnMillis);
+        args.putLong("daysCount", daysCount);
+        args.putDouble("totalPrice", totalPrice);
+
+        BookingConfirmFragment confirmFragment = new BookingConfirmFragment();
+        confirmFragment.setArguments(args);
+
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(getId(), confirmFragment)
+                .addToBackStack(null)
+                .commit();
     }
 
     private void observeViewModel() {

@@ -12,9 +12,10 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
-import com.example.louver.R;
 import com.example.louver.databinding.FragmentHomeBinding;
-import com.example.louver.ui.booking.BookingFragment;
+import com.example.louver.ui.favorites.FavoritesFragment;
+import com.example.louver.ui.mybookings.MyBookingsFragment;
+import com.example.louver.ui.settings.SettingsFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -23,9 +24,6 @@ public class HomeFragment extends Fragment {
 
     private CategoryAdapter categoryAdapter;
     private CarAdapter carAdapter;
-
-    // filter state
-    private Long selectedCategoryId = null;
 
     public HomeFragment() {}
 
@@ -46,12 +44,7 @@ public class HomeFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
 
         viewModel.getWelcomeGreeting().observe(getViewLifecycleOwner(), greeting -> {
-            if (greeting == null || greeting.trim().isEmpty()) {
-                binding.titleText.setVisibility(View.GONE);
-            } else {
-                binding.titleText.setVisibility(View.VISIBLE);
-                binding.titleText.setText(greeting);
-            }
+            binding.tvWelcome.setText(greeting != null ? greeting : "Welcome");
         });
 
         setupLists();
@@ -66,25 +59,16 @@ public class HomeFragment extends Fragment {
         );
 
         categoryAdapter = new CategoryAdapter(category -> {
-            // Toggle selection
-            if (selectedCategoryId != null && selectedCategoryId == category.id) {
-                selectedCategoryId = null;
+            // Toggle category selection
+            if (categoryAdapter.isSelected(category.id)) {
+                // Deselect: clear category filter
                 categoryAdapter.setSelectedCategoryId(-1L);
-                viewModel.loadAllCars();
+                viewModel.setCategory(null);
                 Toast.makeText(requireContext(), "Category cleared", Toast.LENGTH_SHORT).show();
             } else {
-                selectedCategoryId = category.id;
+                // Select: set category filter
                 categoryAdapter.setSelectedCategoryId(category.id);
-
-                // Apply filter by category only (rest null)
-                viewModel.filter(
-                        selectedCategoryId,
-                        null, null,
-                        null,
-                        null,
-                        null,
-                        null
-                );
+                viewModel.setCategory(category.id);
                 Toast.makeText(requireContext(), "Filtered: " + category.name, Toast.LENGTH_SHORT).show();
             }
         });
@@ -95,41 +79,77 @@ public class HomeFragment extends Fragment {
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         );
 
-        carAdapter = new CarAdapter(car -> {
-            // Navigate to BookingFragment with carId
-            BookingFragment bookingFragment = new BookingFragment();
+        carAdapter = new CarAdapter(
+                car -> {
+                    // Navigate to CarDetailsFragment with carId
+                    Fragment detailsFragment = new CarDetailsFragment();
 
-            Bundle args = new Bundle();
-            args.putLong("carId", car.id);
-            bookingFragment.setArguments(args);
+                    Bundle args = new Bundle();
+                    args.putLong("carId", car.id);
+                    detailsFragment.setArguments(args);
 
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(getId(), bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(getId(), detailsFragment)
+                            .addToBackStack(null)
+                            .commit();
+                },
+                carId -> {
+                    // Book button: navigate directly to BookingFragment
+                    Bundle args = new Bundle();
+                    args.putLong("carId", carId);
+
+                    com.example.louver.ui.booking.BookingFragment bookingFragment = new com.example.louver.ui.booking.BookingFragment();
+                    bookingFragment.setArguments(args);
+
+                    getParentFragmentManager()
+                            .beginTransaction()
+                            .replace(getId(), bookingFragment)
+                            .addToBackStack(null)
+                            .commit();
+                }
+        );
         binding.carsRecycler.setAdapter(carAdapter);
     }
 
     private void setupActions() {
         binding.searchButton.setOnClickListener(v -> {
             String q = binding.searchInput.getText().toString().trim();
-            if (q.isEmpty()) {
-                viewModel.loadAllCars();
-            } else {
-                // Search overrides filters for now
-                selectedCategoryId = null;
-                categoryAdapter.setSelectedCategoryId(-1L);
-                viewModel.search(q);
-            }
+            // Update search query; category filter is preserved via MediatorLiveData
+            viewModel.setSearchQuery(q);
         });
 
         binding.resetButton.setOnClickListener(v -> {
             binding.searchInput.setText("");
-            selectedCategoryId = null;
             categoryAdapter.setSelectedCategoryId(-1L);
-            viewModel.loadAllCars();
+            viewModel.clearAllFilters();
+        });
+
+        binding.btnFavorites.setOnClickListener(v -> {
+            FavoritesFragment favoritesFragment = new FavoritesFragment();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(getId(), favoritesFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        binding.btnBookings.setOnClickListener(v -> {
+            MyBookingsFragment bookingsFragment = new MyBookingsFragment();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(getId(), bookingsFragment)
+                    .addToBackStack(null)
+                    .commit();
+        });
+
+        binding.btnSettings.setOnClickListener(v -> {
+            SettingsFragment settingsFragment = new SettingsFragment();
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(getId(), settingsFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
@@ -140,13 +160,6 @@ public class HomeFragment extends Fragment {
 
         viewModel.getCars().observe(getViewLifecycleOwner(), cars -> {
             carAdapter.submitList(cars);
-
-            // quick empty state using title text
-            if (cars == null || cars.isEmpty()) {
-                binding.titleText.setText("Louver (no cars found)");
-            } else {
-                binding.titleText.setText("Louver");
-            }
         });
     }
 

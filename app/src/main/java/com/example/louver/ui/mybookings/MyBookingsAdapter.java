@@ -9,18 +9,23 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.louver.databinding.ItemBookingBinding;
+import com.example.louver.data.converter.BookingStatus;
 import com.example.louver.data.entity.BookingEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.Objects;
+import java.util.function.Consumer;
 
 public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdapter.VH> {
 
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US);
+    private final Consumer<Long> onCancelClick;
 
-    public MyBookingsAdapter() {
+    public MyBookingsAdapter(Consumer<Long> onCancelClick) {
         super(DIFF);
+        this.onCancelClick = onCancelClick;
     }
 
     @NonNull
@@ -31,7 +36,7 @@ public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdap
                 parent,
                 false
         );
-        return new VH(binding);
+        return new VH(binding, onCancelClick);
     }
 
     @Override
@@ -41,10 +46,12 @@ public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdap
 
     static class VH extends RecyclerView.ViewHolder {
         private final ItemBookingBinding binding;
+        private final Consumer<Long> onCancelClick;
 
-        VH(ItemBookingBinding binding) {
+        VH(ItemBookingBinding binding, Consumer<Long> onCancelClick) {
             super(binding.getRoot());
             this.binding = binding;
+            this.onCancelClick = onCancelClick;
         }
 
         void bind(BookingEntity booking) {
@@ -54,6 +61,18 @@ public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdap
             binding.tvDays.setText("Days: " + booking.daysCount);
             binding.tvTotal.setText(String.format(Locale.US, "Total: $%.2f", booking.totalPrice));
             binding.tvStatus.setText("Status: " + booking.status.name());
+
+            // Show cancel button only for ACTIVE bookings
+            if (booking.status == BookingStatus.ACTIVE) {
+                binding.btnCancel.setVisibility(android.view.View.VISIBLE);
+                binding.btnCancel.setOnClickListener(v -> {
+                    if (onCancelClick != null) {
+                        onCancelClick.accept(booking.id);
+                    }
+                });
+            } else {
+                binding.btnCancel.setVisibility(android.view.View.GONE);
+            }
         }
     }
 
@@ -73,7 +92,7 @@ public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdap
                             && oldItem.returnAt == newItem.returnAt
                             && oldItem.daysCount == newItem.daysCount
                             && oldItem.totalPrice == newItem.totalPrice
-                            && oldItem.status == newItem.status;
+                            && Objects.equals(oldItem.status, newItem.status);
                 }
             };
 }

@@ -30,6 +30,10 @@ public class CategoryAdapter extends ListAdapter<CategoryEntity, CategoryAdapter
         notifyDataSetChanged();
     }
 
+    public boolean isSelected(long categoryId) {
+        return selectedCategoryId == categoryId;
+    }
+
     @NonNull
     @Override
     public VH onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {

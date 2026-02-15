@@ -1,6 +1,7 @@
 package com.example.louver.data.repository;
 
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Transformations;
 
 import com.example.louver.data.db.AppDatabase;
 import com.example.louver.data.entity.CarEntity;
@@ -33,6 +34,20 @@ public class CarRepository {
         return db.carDao().getCarWithReviews(carId);
     }
 
+    /**
+     * Get a single car by ID as observable LiveData.
+     * Maps the CarWithImages result to extract just the car entity.
+     * Handles null safely.
+     */
+    public LiveData<CarEntity> getCarById(long carId) {
+        return Transformations.map(db.carDao().getCarWithImages(carId), carWithImages -> {
+            if (carWithImages == null) {
+                return null;
+            }
+            return carWithImages.car;
+        });
+    }
+
     public LiveData<List<CarEntity>> searchCars(String query) {
         return db.carDao().searchCars(query);
     }
@@ -52,6 +67,21 @@ public class CarRepository {
             Boolean availableOnly
     ) {
         return db.carDao().filterCars(categoryId, minPrice, maxPrice, year, transmission, seats, availableOnly);
+    }
+
+    /**
+     * Combined search and filter query.
+     * Applies search text AND category filter AND availability filter together.
+     * Null values for categoryId and availableOnly disable those filters.
+     *
+     * @param searchQuery    Text to search in name/model (empty string disables search)
+     * @param categoryId     Filter by category (null disables this filter)
+     * @param availableOnly  Filter by availability (null disables this filter)
+     * @return LiveData<List<CarEntity>> updated whenever any filter changes
+     */
+    public LiveData<List<CarEntity>> searchAndFilter(String searchQuery, Long categoryId, Boolean availableOnly) {
+        String query = searchQuery != null ? searchQuery.trim() : "";
+        return db.carDao().searchAndFilter(query, categoryId, availableOnly);
     }
 
     public void insert(CarEntity car) {

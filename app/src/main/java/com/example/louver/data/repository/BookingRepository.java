@@ -1,5 +1,7 @@
 package com.example.louver.data.repository;
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.lifecycle.LiveData;
 
@@ -7,18 +9,23 @@ import com.example.louver.data.calculator.BookingCalculator;
 import com.example.louver.data.calculator.BookingCalculationResult;
 import com.example.louver.data.converter.BookingStatus;
 import com.example.louver.data.db.AppDatabase;
+import com.example.louver.data.entity.AppSettingsEntity;
 import com.example.louver.data.entity.BookingEntity;
 import com.example.louver.data.relation.BookingFullDetails;
+import com.example.louver.data.notification.NotificationScheduler;
 
 import java.util.List;
 
 public class BookingRepository {
 
     private final AppDatabase db;
+    private final Context appContext;
 
-    public BookingRepository(AppDatabase db) {
+    public BookingRepository(AppDatabase db, Context context) {
         this.db = db;
+        this.appContext = context.getApplicationContext();
     }
+
 
     public LiveData<List<BookingEntity>> getBookingsForUser(long userId) {
         return db.bookingDao().getBookingsForUser(userId);
@@ -121,7 +128,17 @@ public class BookingRepository {
                 car.isAvailable = false;
                 db.carDao().update(car);
 
-                // Step 6: Return success with booking details
+                // Step 6: Schedule notifications if enabled
+                if (isNotificationsEnabled()) {
+                    NotificationScheduler.scheduleBookingNotifications(
+                            appContext,
+                            db,
+                            bookingId,
+                            returnEpochMillis
+                    );
+                }
+
+                // Step 7: Return success with booking details
                 if (callback != null) {
                     callback.onComplete(PlaceBookingResult.success(bookingId, calc.daysCount, calc.totalPrice));
                 }
@@ -185,7 +202,13 @@ public class BookingRepository {
                     db.carDao().update(car);
                 }
 
-                // Step 5: Return success
+                // Step 5: Cancel all scheduled notifications
+                NotificationScheduler.cancelBookingNotifications(
+                        appContext,
+                        bookingId
+                );
+
+                // Step 6: Return success
                 if (callback != null) {
                     callback.onComplete(CancellationResult.success("Booking cancelled successfully"));
                 }
@@ -195,5 +218,17 @@ public class BookingRepository {
                 }
             }
         });
+    }
+
+    /**
+     * Check if notifications are enabled.
+     */
+    private boolean isNotificationsEnabled() {
+        try {
+            AppSettingsEntity settings = db.settingsDao().getSettingsNow();
+            return settings != null && settings.notificationsEnabled;
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

@@ -74,7 +74,7 @@ public final class RepositoryProvider {
         if (bookingRepository == null) {
             synchronized (RepositoryProvider.class) {
                 if (bookingRepository == null) {
-                    bookingRepository = new BookingRepository(AppDatabase.getInstance(context));
+                    bookingRepository = new BookingRepository(AppDatabase.getInstance(context), context);
                 }
             }
         }

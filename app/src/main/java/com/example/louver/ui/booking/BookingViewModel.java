@@ -6,9 +6,12 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.louver.data.auth.SessionManager;
+import com.example.louver.data.entity.CarEntity;
 import com.example.louver.data.repository.BookingRepository;
+import com.example.louver.data.repository.CarRepository;
 import com.example.louver.data.repository.DbCallback;
 import com.example.louver.data.repository.PlaceBookingResult;
+import com.example.louver.data.repository.RepositoryProvider;
 
 /**
  * ViewModel for booking placement.
@@ -24,9 +27,11 @@ public class BookingViewModel extends ViewModel {
 
     private final BookingRepository bookingRepository;
     private final SessionManager sessionManager;
+    private final CarRepository carRepository;
 
     private final MutableLiveData<PlaceBookingResult> bookingResultLD = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingLD = new MutableLiveData<>(false);
+    private LiveData<com.example.louver.data.entity.CarEntity> selectedCarLD;
 
     // Factory constructor will be called with repositories
     public BookingViewModel(
@@ -35,6 +40,25 @@ public class BookingViewModel extends ViewModel {
     ) {
         this.bookingRepository = bookingRepository;
         this.sessionManager = sessionManager;
+        this.carRepository = RepositoryProvider.cars(null);
+    }
+
+    /**
+     * Load car details by carId.
+     */
+    public void loadCar(long carId) {
+        selectedCarLD = carRepository.getCarById(carId);
+    }
+
+    /**
+     * Get selected car as observable LiveData.
+     */
+    @NonNull
+    public LiveData<com.example.louver.data.entity.CarEntity> getSelectedCar() {
+        if (selectedCarLD == null) {
+            selectedCarLD = new MutableLiveData<>();
+        }
+        return selectedCarLD;
     }
 
     /**
