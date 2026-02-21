@@ -1,45 +1,20 @@
-# Louver Android Car Rental and Maintenance App
+# Louver
+
+An Android car rental and booking application built with Java and Room, following MVVM architecture.
 
 ## Overview
-Louver is a comprehensive Android application designed for car rental and maintenance services. It aims to provide users with a seamless and efficient way to book car rentals and keep track of their vehicle maintenance history.
 
-## Features
-- User Registration and Login
-- Car Rental Booking
-- Vehicle Maintenance Tracking
-- Push Notifications for Maintenance Reminders
-- Admin Panel for Car Management
+Louver is a fully offline Android application that simulates a real-world car showroom and rental system. Users can browse a catalogue of cars, filter by category and availability, book rentals, and track their booking history. The app handles the full rental lifecycle — from browsing and favoriting cars, to booking with automatic price calculation, to receiving local notifications when a booking is about to end or becomes overdue.
 
-## Technology Stack
-- **Frontend:** Android SDK, Kotlin
-- **Backend:** Node.js, Express
-- **Database:** MongoDB
+Authentication is built in, with separate user and admin roles. Admins have access to a dashboard for managing the car catalogue. All data is stored locally using Room (SQLite), with no external backend required.
 
-## Installation
-1. Clone the repository:
-   ```bash
-   git clone https://github.com/Abdalrahman-py/Louver.git
-   ```
-2. Navigate to the project directory:
-   ```bash
-   cd Louver
-   ```
-3. Open the project in Android Studio.
-4. Sync the project with Gradle files.
+## Tech Stack
 
-## Usage
-- After installation, run the application on an Android device or emulator.
-- Follow the on-screen instructions to register or log in.
-- Explore the features to book rentals and manage vehicle maintenance.
-
-## Contributing
-If you'd like to contribute to the project, please fork the repository and submit a pull request with your changes.
-
-## License
-This project is licensed under the MIT License.
-
-## Contact
-For any inquiries, please reach out to [your_email@example.com].
-
-## Acknowledgements
-- A special thanks to everyone who contributed to the development of Louver.
+- Java
+- Android SDK (minSdk 24, targetSdk 36)
+- MVVM + Repository Pattern
+- Room (local database)
+- LiveData
+- ViewBinding
+- AlarmManager (local notifications)
+- Material Design components
