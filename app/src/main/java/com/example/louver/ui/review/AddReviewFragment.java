@@ -126,12 +126,12 @@ public class AddReviewFragment extends Fragment {
                 if (result.isSuccess) {
                     binding.tvStatus.setText(R.string.review_saved_success);
                     binding.tvStatus.setVisibility(View.VISIBLE);
-                    binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_primary));
+                    binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_accent));
                     getParentFragmentManager().popBackStack();
                 } else {
                     binding.tvStatus.setText(result.message);
                     binding.tvStatus.setVisibility(View.VISIBLE);
-                    binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), android.R.color.holo_red_dark));
+                    binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
                 }
             }
         });

@@ -1,97 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Write a Review"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Rating"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Write a Review" android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Rating" android:textAppearance="@style/TextAppearance.Material3.TitleSmall" android:textStyle="bold" android:layout_marginTop="8dp"/>
 
     <RatingBar
         android:id="@+id/rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:isIndicator="false"
         android:numStars="5"
         android:rating="3"
-        android:stepSize="1"
-        android:isIndicator="false"
-        android:layout_marginTop="8dp" />
+        android:stepSize="1" />
 
     <TextView
         android:id="@+id/tv_rating_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#D32F2F"
+        android:layout_marginTop="4dp"
+        android:textColor="@color/color_louver_error"
         android:textSize="12sp"
-        android:visibility="gone"
-        android:layout_marginTop="4dp" />
+        android:visibility="gone" />
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comment (required)"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:hint="Comment (required)">
 
-    <EditText
-        android:id="@+id/et_comment"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:hint="Share your experience..."
-        android:inputType="textMultiLine"
-        android:gravity="top"
-        android:padding="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:drawable/edit_text"
-        android:layout_marginBottom="4dp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="top"
+            android:hint="Share your experience..."
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_comment_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#D32F2F"
-        android:textSize="12sp"
-        android:visibility="gone"
-        android:layout_marginBottom="16dp" />
-
-    <ProgressBar
-        android:id="@+id/progress_bar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:visibility="gone"
-        android:layout_marginBottom="16dp" />
-
-    <TextView
-        android:id="@+id/tv_status"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
         android:layout_marginBottom="16dp"
-        android:textSize="14sp" />
+        android:textColor="@color/color_louver_error"
+        android:textSize="12sp"
+        android:visibility="gone" />
 
-    <Button
+    <ProgressBar android:id="@+id/progress_bar" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:layout_marginBottom="16dp" android:visibility="gone"/>
+    <TextView android:id="@+id/tv_status" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="16dp" android:textSize="14sp" android:visibility="gone"/>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save_review"
+        style="@style/AppButton.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Review"
+        android:layout_marginTop="16dp"
         android:enabled="false"
-        android:layout_marginTop="16dp" />
+        android:text="Save Review" />
 
 </LinearLayout>
-

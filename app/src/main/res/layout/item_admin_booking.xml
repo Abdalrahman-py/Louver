@@ -1,35 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    style="@style/Widget.Louver.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="8dp"
-    android:orientation="vertical"
-    android:padding="12dp">
+    android:layout_marginBottom="12dp">
 
-    <TextView
-        android:id="@+id/tvBookingUser"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textStyle="bold" />
+        android:orientation="vertical"
+        android:padding="16dp">
 
-    <TextView
-        android:id="@+id/tvBookingCar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        <TextView android:id="@+id/tvBookingUser" android:layout_width="match_parent" android:layout_height="wrap_content" android:textStyle="bold" />
+        <TextView android:id="@+id/tvBookingCar" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="?attr/colorOnSurfaceVariant" />
+        <TextView android:id="@+id/tvBookingDates" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="?attr/colorOnSurfaceVariant" />
+        <TextView android:id="@+id/tvBookingPrice" android:layout_width="match_parent" android:layout_height="wrap_content" />
+        <TextView android:id="@+id/tvBookingStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/tvBookingDates"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+    </LinearLayout>
 
-    <TextView
-        android:id="@+id/tvBookingPrice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/tvBookingStatus"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-</LinearLayout>
+</com.google.android.material.card.MaterialCardView>

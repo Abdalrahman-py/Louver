@@ -1,21 +1,33 @@
 <resources>
-    <style name="Theme.Louver" parent="Theme.Material3.DayNight.NoActionBar">
-        <item name="colorPrimary">@color/color_louver_primary</item>
+    <style name="Theme.Louver" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/color_louver_primary_text</item>
         <item name="colorOnPrimary">@color/color_louver_on_primary</item>
-        <item name="colorSecondary">@color/color_louver_secondary</item>
+        <item name="colorSecondary">@color/color_louver_accent</item>
         <item name="colorOnSecondary">@color/color_louver_on_secondary</item>
+        <item name="colorError">@color/color_louver_error</item>
+        <item name="colorOnError">@android:color/white</item>
         <item name="android:colorBackground">@color/color_louver_background</item>
-        <item name="colorSurface">@color/color_louver_surface</item>
-        <item name="colorSurfaceVariant">@color/color_louver_surface_variant</item>
-        <item name="materialButtonStyle">@style/Widget.MaterialButton.Louver</item>
-    </style>
+        <item name="colorSurface">@color/color_louver_surface_container</item>
+        <item name="colorOnSurface">@color/color_louver_primary_text</item>
+        <item name="colorSurfaceVariant">@color/color_louver_surface</item>
+        <item name="colorOnSurfaceVariant">@color/color_louver_secondary_text</item>
+        <item name="colorPrimaryContainer">@color/color_louver_accent_container</item>
+        <item name="colorOnPrimaryContainer">@color/color_louver_accent</item>
+        <item name="colorSecondaryContainer">@color/color_louver_accent_container</item>
+        <item name="colorOnSecondaryContainer">@color/color_louver_accent</item>
 
-    <style name="Widget.MaterialButton.Louver" parent="Widget.Material3.Button">
-        <item name="android:textColor">@color/color_louver_on_primary</item>
+        <item name="toolbarStyle">@style/Widget.Louver.Toolbar</item>
+        <item name="bottomNavigationStyle">@style/Widget.Louver.BottomNavigation</item>
+        <item name="materialButtonStyle">@style/AppButton.Primary</item>
+        <item name="materialButtonOutlinedStyle">@style/AppButton.Secondary</item>
+        <item name="floatingActionButtonStyle">@style/Widget.Louver.Fab</item>
+        <item name="materialCardViewStyle">@style/Widget.Louver.Card</item>
+        <item name="textInputStyle">@style/Widget.Louver.TextInputLayout</item>
+        <item name="navigationViewStyle">@style/Widget.Louver.NavigationView</item>
     </style>
 
     <style name="Theme.Louver.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">@color/color_louver_primary</item>
+        <item name="windowSplashScreenBackground">@color/color_louver_background</item>
         <item name="windowSplashScreenAnimatedIcon">@drawable/ic_louver_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.Louver</item>
     </style>
