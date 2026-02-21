@@ -3,43 +3,46 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/louver_white">
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_select_pickup"
+        style="@style/Widget.Louver.Button.Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Pickup Date &amp; Time" />
+        android:text="Select pickup date &amp; time" />
 
     <TextView
         android:id="@+id/tv_pickup_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Pickup not set"
-        android:textSize="12sp"
-        android:layout_marginBottom="16dp" />
+        android:textAppearance="@style/TextAppearance.Louver.Body" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_select_return"
+        style="@style/Widget.Louver.Button.Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Select Return Date &amp; Time" />
+        android:text="Select return date &amp; time" />
 
     <TextView
         android:id="@+id/tv_return_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
         android:text="Return not set"
-        android:textSize="12sp"
-        android:layout_marginBottom="16dp" />
+        android:textAppearance="@style/TextAppearance.Louver.Body" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_confirm_booking"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Confirm Booking"
         android:layout_marginBottom="16dp"
-        android:enabled="false" />
+        android:enabled="false"
+        android:text="Confirm booking" />
 
     <ProgressBar
         android:id="@+id/progress_booking"
@@ -51,8 +54,7 @@
         android:id="@+id/tv_status"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:textAppearance="@style/TextAppearance.Louver.Body" />
 
 </LinearLayout>

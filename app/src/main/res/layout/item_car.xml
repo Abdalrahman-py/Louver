@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="14dp">
+    android:layout_marginBottom="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/carName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Car Name"
-            android:textSize="16sp"
-            android:textStyle="bold"/>
+            android:textAppearance="@style/TextAppearance.Louver.Section"
+            android:text="Car Name"/>
 
         <TextView
             android:id="@+id/carModel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Model • Year"
-            android:layout_marginTop="4dp"/>
+            android:textAppearance="@style/TextAppearance.Louver.Body"/>
 
         <TextView
             android:id="@+id/carMeta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Seats • Transmission • Fuel"
-            android:layout_marginTop="4dp"/>
+            android:textAppearance="@style/TextAppearance.Louver.Body"/>
 
         <TextView
             android:id="@+id/carPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:text="Price / day"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:textAppearance="@style/TextAppearance.Louver.Section"/>
 
         <TextView
             android:id="@+id/availability"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="Available"
-            android:layout_marginTop="2dp"/>
+            android:textAppearance="@style/TextAppearance.Louver.Body"/>
 
         <TextView
             android:id="@+id/car_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="No reviews"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp"/>
+            android:textAppearance="@style/TextAppearance.Louver.Body"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Book"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp"
+            android:text="Book"/>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

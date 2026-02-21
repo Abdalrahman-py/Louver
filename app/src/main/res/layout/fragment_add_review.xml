@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="16dp"
+    android:background="@color/louver_white">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Write a Review"
-        android:textSize="20sp"
-        android:textStyle="bold"
+        android:text="Write a review"
+        android:textAppearance="@style/TextAppearance.Louver.Title"
         android:layout_marginBottom="16dp" />
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Rating"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp" />
+        android:textAppearance="@style/TextAppearance.Louver.Section"
+        android:layout_marginTop="12dp" />
 
     <RatingBar
         android:id="@+id/rating_bar"
@@ -35,37 +35,30 @@
         android:id="@+id/tv_rating_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#D32F2F"
-        android:textSize="12sp"
+        android:textColor="@color/louver_error"
         android:visibility="gone"
         android:layout_marginTop="4dp" />
 
-    <TextView
+    <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Comment (required)"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        android:layout_marginTop="16dp" />
+        android:layout_marginTop="16dp"
+        android:hint="Comment (required)">
 
-    <EditText
-        android:id="@+id/et_comment"
-        android:layout_width="match_parent"
-        android:layout_height="120dp"
-        android:hint="Share your experience..."
-        android:inputType="textMultiLine"
-        android:gravity="top"
-        android:padding="8dp"
-        android:layout_marginTop="8dp"
-        android:background="@android:drawable/edit_text"
-        android:layout_marginBottom="4dp" />
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_comment"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:gravity="top"
+            android:hint="Share your experience..."
+            android:inputType="textMultiLine" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/tv_comment_error"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="#D32F2F"
-        android:textSize="12sp"
+        android:textColor="@color/louver_error"
         android:visibility="gone"
         android:layout_marginBottom="16dp" />
 
@@ -83,15 +76,14 @@
         android:layout_height="wrap_content"
         android:visibility="gone"
         android:layout_marginBottom="16dp"
-        android:textSize="14sp" />
+        android:textAppearance="@style/TextAppearance.Louver.Body" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_save_review"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save Review"
+        android:text="Save review"
         android:enabled="false"
         android:layout_marginTop="16dp" />
 
 </LinearLayout>
-

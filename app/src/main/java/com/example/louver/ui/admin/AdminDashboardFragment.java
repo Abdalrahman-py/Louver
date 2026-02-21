@@ -4,11 +4,14 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.louver.R;
+import com.example.louver.data.auth.SessionManager;
 import com.example.louver.databinding.FragmentAdminDashboardBinding;
 
 public class AdminDashboardFragment extends Fragment {
@@ -31,20 +34,22 @@ public class AdminDashboardFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        binding.btnAddCar.setOnClickListener(v ->
-                navigateTo(new AddEditCarFragment()));
+        SessionManager sessionManager = new SessionManager(requireContext());
+        if (!AdminAccessGuard.isAdmin(sessionManager)) {
+            Toast.makeText(requireContext(), R.string.admin_access_denied, Toast.LENGTH_SHORT).show();
+            getParentFragmentManager().popBackStack();
+            return;
+        }
 
-        binding.btnManageCars.setOnClickListener(v ->
-                navigateTo(new AdminCarListFragment()));
-
-        binding.btnViewBookings.setOnClickListener(v ->
-                navigateTo(new AdminBookingsFragment()));
+        binding.btnManageCars.setOnClickListener(v -> navigateTo(new AdminCarsFragment()));
+        binding.btnViewBookings.setOnClickListener(v -> navigateTo(new AdminBookingsFragment()));
     }
 
     private void navigateTo(Fragment fragment) {
         getParentFragmentManager()
                 .beginTransaction()
-                .replace(getId(), fragment)
+                .replace(R.id.fragmentContainer, fragment)
+                .addToBackStack(null)
                 .commit();
     }
 
@@ -54,5 +59,3 @@ public class AdminDashboardFragment extends Fragment {
         binding = null;
     }
 }
-
-

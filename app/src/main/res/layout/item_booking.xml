@@ -1,48 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="12dp">
+    android:layout_marginBottom="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="12dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/tv_car_id"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Car ID: 0"
-            android:textStyle="bold"
-            android:textSize="14sp" />
+            android:textAppearance="@style/TextAppearance.Louver.Section" />
 
         <TextView
             android:id="@+id/tv_pickup"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pickup: "
             android:layout_marginTop="4dp"
-            android:textSize="13sp" />
+            android:text="Pickup: "
+            android:textAppearance="@style/TextAppearance.Louver.Body" />
 
         <TextView
             android:id="@+id/tv_return"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Return: "
             android:layout_marginTop="2dp"
-            android:textSize="13sp" />
+            android:text="Return: "
+            android:textAppearance="@style/TextAppearance.Louver.Body" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="8dp">
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tv_days"
@@ -50,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Days: 0"
-                android:textSize="12sp" />
+                android:textAppearance="@style/TextAppearance.Louver.Body" />
 
             <TextView
                 android:id="@+id/tv_total"
@@ -58,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Total: $0.00"
-                android:textSize="12sp" />
+                android:textAppearance="@style/TextAppearance.Louver.Body" />
 
         </LinearLayout>
 
@@ -66,20 +62,19 @@
             android:id="@+id/tv_status"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Status: ACTIVE"
             android:layout_marginTop="4dp"
-            android:textSize="12sp"
-            android:textStyle="bold" />
+            android:text="Status: ACTIVE"
+            android:textAppearance="@style/TextAppearance.Louver.Section" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancel"
+            style="@style/Widget.Louver.Button.Destructive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Cancel Booking"
             android:layout_marginTop="8dp"
+            android:text="Cancel booking"
             android:visibility="gone" />
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
-
+</com.google.android.material.card.MaterialCardView>

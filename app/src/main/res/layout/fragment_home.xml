@@ -5,16 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/homeRoot"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/louver_white">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?attr/colorSurface"
+        android:background="@color/louver_white"
         app:liftOnScroll="true">
 
-        <!-- Collapsible: Welcome + Search -->
         <LinearLayout
             android:id="@+id/collapsingHeader"
             android:layout_width="match_parent"
@@ -31,13 +31,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="Welcome"
-                android:textSize="18sp"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.Louver.Section"
                 android:layout_marginBottom="12dp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/searchRow"
-                style="@style/Widget.Material3.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:endIconMode="custom"
@@ -57,7 +55,6 @@
 
         </LinearLayout>
 
-        <!-- Pinned: Categories -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoriesRecycler"
             android:layout_width="match_parent"
@@ -71,7 +68,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <!-- Scrollable: Cars list -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/carsRecycler"
         android:layout_width="match_parent"
