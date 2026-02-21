@@ -59,12 +59,48 @@
             android:textSize="12sp"
             android:layout_marginTop="2dp"/>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_book"
+            style="@style/Widget.Material3.Button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Book"
             android:layout_marginTop="12dp"/>
+
+        <LinearLayout
+            android:id="@+id/adminActionsRow"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_edit"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Edit"
+                android:textColor="@color/color_louver_on_secondary"
+                app:backgroundTint="@color/color_louver_surface"
+                app:cornerRadius="10dp"
+                app:elevation="3dp" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/btn_delete"
+                style="@style/Widget.Material3.Button.ElevatedButton"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Delete"
+                android:textColor="@color/admin_delete_text"
+                app:backgroundTint="@color/color_louver_surface"
+                app:cornerRadius="10dp"
+                app:elevation="3dp" />
+
+        </LinearLayout>
 
     </LinearLayout>
 

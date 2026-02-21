@@ -11,4 +11,5 @@
     <color name="color_louver_surface_variant_dark">#1A3A2B</color>
     <color name="color_louver_on_primary">#FFFFFF</color>
     <color name="color_louver_on_secondary">#1A1A1A</color>
+    <color name="admin_delete_text">#C62828</color>
 </resources>

@@ -21,6 +21,7 @@ public class AdminCarsViewModel extends ViewModel {
 
     private final MutableLiveData<String> messageLD = new MutableLiveData<>();
     private final MutableLiveData<CarEntity> editingCarLD = new MutableLiveData<>();
+    private final MutableLiveData<Boolean> saveSuccessLD = new MutableLiveData<>();
 
     public AdminCarsViewModel(@NonNull CarRepository carRepository, @NonNull BookingRepository bookingRepository) {
         this.carRepository = carRepository;
@@ -28,25 +29,14 @@ public class AdminCarsViewModel extends ViewModel {
         this.cars = carRepository.getAllCars();
     }
 
-    public LiveData<List<CarEntity>> getCars() {
-        return cars;
-    }
+    public LiveData<List<CarEntity>> getCars() { return cars; }
+    public LiveData<String> getMessage() { return messageLD; }
+    public LiveData<CarEntity> getEditingCar() { return editingCarLD; }
+    public LiveData<Boolean> getSaveSuccess() { return saveSuccessLD; }
 
-    public LiveData<String> getMessage() {
-        return messageLD;
-    }
-
-    public LiveData<CarEntity> getEditingCar() {
-        return editingCarLD;
-    }
-
-    public void startEdit(CarEntity carEntity) {
-        editingCarLD.setValue(carEntity);
-    }
-
-    public void resetEditing() {
-        editingCarLD.setValue(null);
-    }
+    public void startEdit(CarEntity carEntity) { editingCarLD.setValue(carEntity); }
+    public void resetEditing() { editingCarLD.setValue(null); }
+    public void clearSaveSuccess() { saveSuccessLD.setValue(null); }
 
     public void saveCar(
             CarEntity existing,
@@ -94,6 +84,7 @@ public class AdminCarsViewModel extends ViewModel {
         }
 
         resetEditing();
+        saveSuccessLD.setValue(true);
     }
 
     public void deleteCar(CarEntity carEntity) {

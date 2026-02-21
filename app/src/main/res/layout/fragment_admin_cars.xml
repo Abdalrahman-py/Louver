@@ -1,146 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:padding="16dp">
-
-    <TextView
-        android:id="@+id/tvFormTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/admin_create_car_title"
-        android:textSize="18sp"
-        android:textStyle="bold" />
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="260dp"
-        android:layout_marginTop="8dp"
-        android:fillViewport="true">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <EditText
-                android:id="@+id/inputCategoryId"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_category_id"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/inputName"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_name" />
-
-            <EditText
-                android:id="@+id/inputModel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_model" />
-
-            <EditText
-                android:id="@+id/inputYear"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_year"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/inputDailyPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_daily_price"
-                android:inputType="numberDecimal" />
-
-            <AutoCompleteTextView
-                android:id="@+id/inputTransmission"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_transmission" />
-
-            <AutoCompleteTextView
-                android:id="@+id/inputFuelType"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_fuel_type" />
-
-            <EditText
-                android:id="@+id/inputSeats"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_seats"
-                android:inputType="number" />
-
-            <EditText
-                android:id="@+id/inputFuelConsumption"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_fuel_consumption"
-                android:inputType="numberDecimal" />
-
-            <EditText
-                android:id="@+id/inputDescription"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_description" />
-
-            <EditText
-                android:id="@+id/inputMainImage"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/admin_car_image_url" />
-
-            <Switch
-                android:id="@+id/switchAvailable"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:checked="true"
-                android:text="@string/admin_car_available" />
-        </LinearLayout>
-    </ScrollView>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:orientation="horizontal">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnSaveCar"
-            style="@style/Widget.Material3.Button"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/admin_create_car_btn" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnClearForm"
-            style="@style/Widget.Material3.Button.OutlinedButton"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_weight="1"
-            android:text="@string/admin_clear_form" />
-    </LinearLayout>
+    android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/emptyCars"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:padding="24dp"
         android:text="@string/admin_empty_cars"
+        android:textSize="16sp"
         android:visibility="gone" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerCars"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginTop="8dp"
-        android:layout_weight="1" />
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:paddingTop="8dp"
+        android:paddingBottom="80dp"
+        android:paddingHorizontal="8dp" />
 
-</LinearLayout>
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/fabAddCar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:contentDescription="@string/admin_btn_add_car"
+        app:srcCompat="@android:drawable/ic_input_add" />
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
