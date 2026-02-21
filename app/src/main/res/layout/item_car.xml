@@ -1,71 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.cardview.widget.CardView
+<com.google.android.material.card.MaterialCardView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    style="@style/Widget.Louver.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp"
-    app:cardUseCompatPadding="true"
-    app:cardCornerRadius="14dp">
+    android:layout_marginBottom="12dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="14dp">
+        android:padding="16dp">
 
         <TextView
             android:id="@+id/carName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Car Name"
-            android:textSize="16sp"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
             android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/carModel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
             android:text="Model • Year"
-            android:layout_marginTop="4dp"/>
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
 
         <TextView
             android:id="@+id/carMeta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="Seats • Transmission • Fuel"
-            android:layout_marginTop="4dp"/>
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
 
         <TextView
             android:id="@+id/carPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="Price / day"
-            android:textStyle="bold"
-            android:layout_marginTop="8dp"/>
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+            android:textStyle="bold"/>
 
         <TextView
             android:id="@+id/availability"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="Available"
-            android:layout_marginTop="2dp"/>
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
 
         <TextView
             android:id="@+id/car_rating"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
             android:text="No reviews"
-            android:textSize="12sp"
-            android:layout_marginTop="2dp"/>
+            android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_book"
-            style="@style/Widget.Material3.Button"
+            style="@style/AppButton.Primary"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Book"
-            android:layout_marginTop="12dp"/>
+            android:layout_marginTop="12dp"
+            android:text="Book"/>
 
         <LinearLayout
             android:id="@+id/adminActionsRow"
@@ -77,31 +84,23 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_edit"
-                style="@style/Widget.Material3.Button.ElevatedButton"
+                style="@style/AppButton.Secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Edit"
-                android:textColor="@color/color_louver_on_secondary"
-                app:backgroundTint="@color/color_louver_surface"
-                app:cornerRadius="10dp"
-                app:elevation="3dp" />
+                android:text="Edit" />
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_delete"
-                style="@style/Widget.Material3.Button.ElevatedButton"
+                style="@style/AppButton.Destructive"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:layout_marginStart="8dp"
-                android:text="Delete"
-                android:textColor="@color/admin_delete_text"
-                app:backgroundTint="@color/color_louver_surface"
-                app:cornerRadius="10dp"
-                app:elevation="3dp" />
+                android:text="Delete" />
 
         </LinearLayout>
 
     </LinearLayout>
 
-</androidx.cardview.widget.CardView>
+</com.google.android.material.card.MaterialCardView>

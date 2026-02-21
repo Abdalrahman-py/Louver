@@ -8,8 +8,10 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.example.louver.R;
 import com.example.louver.databinding.FragmentBookingConfirmBinding;
 import com.example.louver.data.auth.SessionManager;
 import com.example.louver.data.repository.BookingRepository;
@@ -76,7 +78,7 @@ public class BookingConfirmFragment extends Fragment {
         binding.btnConfirmFinal.setOnClickListener(v -> {
             if (carId <= 0) {
                 binding.tvStatusConfirm.setText("Error: Car ID not found");
-                binding.tvStatusConfirm.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+                binding.tvStatusConfirm.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
                 return;
             }
 
@@ -110,14 +112,14 @@ public class BookingConfirmFragment extends Fragment {
                         result.totalPrice
                 );
                 binding.tvStatusConfirm.setText(message);
-                binding.tvStatusConfirm.setTextColor(getResources().getColor(android.R.color.holo_green_dark, null));
+                binding.tvStatusConfirm.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_accent));
 
                 // Navigate back after success
                 getParentFragmentManager().popBackStack();
                 getParentFragmentManager().popBackStack();
             } else {
                 binding.tvStatusConfirm.setText("Error: " + result.errorMessage);
-                binding.tvStatusConfirm.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+                binding.tvStatusConfirm.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             }
         });
     }

@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="24dp">
+    android:padding="20dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -15,7 +15,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnManageCars"
-        style="@style/Widget.Material3.Button"
+        style="@style/AppButton.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="12dp"
@@ -23,7 +23,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnViewBookings"
-        style="@style/Widget.Material3.Button"
+        style="@style/AppButton.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/admin_btn_view_bookings" />

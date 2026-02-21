@@ -62,8 +62,8 @@ public class CategoryAdapter extends ListAdapter<CategoryEntity, CategoryAdapter
         void bind(CategoryEntity category, boolean selected, OnCategoryClick click) {
             binding.categoryName.setText(category.name);
 
-            // Simple selected style (no custom colors)
-            binding.getRoot().setAlpha(selected ? 1.0f : 0.6f);
+            binding.getRoot().setSelected(selected);
+            binding.categoryName.setSelected(selected);
 
             binding.getRoot().setOnClickListener(v -> {
                 if (click != null) click.onClick(category);
