@@ -32,6 +32,18 @@ public interface BookingDao {
     @Query("SELECT * FROM bookings WHERE userId = :userId ORDER BY createdAt DESC")
     LiveData<List<BookingFullDetails>> getBookingsFullDetailsForUser(long userId);
 
+
+    @Transaction
+    @Query("SELECT * FROM bookings ORDER BY createdAt DESC")
+    LiveData<List<BookingFullDetails>> getAllBookingsFullDetails();
+
+    @Query("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM bookings WHERE carId = :carId")
+    int hasBookingsForCarInternal(long carId);
+
+    default boolean hasBookingsForCar(long carId) {
+        return hasBookingsForCarInternal(carId) == 1;
+    }
+
     @Query("UPDATE bookings SET status = 'COMPLETED', updatedAt = :updatedAt WHERE id = :bookingId")
     void markCompleted(long bookingId, long updatedAt);
 

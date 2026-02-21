@@ -39,6 +39,11 @@ public class BookingRepository {
         return db.bookingDao().getBookingsFullDetailsForUser(userId);
     }
 
+
+    public LiveData<List<BookingFullDetails>> getAllBookingsFullDetails() {
+        return db.bookingDao().getAllBookingsFullDetails();
+    }
+
     public void createBooking(BookingEntity booking) {
         AppDatabase.DB_EXECUTOR.execute(() -> db.bookingDao().insert(booking));
     }
@@ -179,6 +184,14 @@ public class BookingRepository {
         AppDatabase.DB_EXECUTOR.execute(() -> {
             boolean overlap = db.bookingDao().hasOverlappingActiveBooking(carId, pickupAt, returnAt);
             if (callback != null) callback.onComplete(overlap);
+        });
+    }
+
+
+    public void hasBookingsForCar(long carId, DbCallback<Boolean> callback) {
+        AppDatabase.DB_EXECUTOR.execute(() -> {
+            boolean hasBookings = db.bookingDao().hasBookingsForCar(carId);
+            if (callback != null) callback.onComplete(hasBookings);
         });
     }
 

@@ -26,6 +26,33 @@
     <string name="admin_btn_view_bookings">View All Bookings</string>
     <string name="drawer_open">Open navigation drawer</string>
     <string name="drawer_close">Close navigation drawer</string>
+
+    <string name="admin_access_denied">You do not have access to this area.</string>
+    <string name="admin_create_car_title">Create Car</string>
+    <string name="admin_update_car_title">Update Car</string>
+    <string name="admin_create_car_btn">Create Car</string>
+    <string name="admin_update_car_btn">Save Changes</string>
+    <string name="admin_clear_form">Clear</string>
+    <string name="admin_car_category_id">Category ID</string>
+    <string name="admin_car_name">Name</string>
+    <string name="admin_car_model">Model</string>
+    <string name="admin_car_year">Year</string>
+    <string name="admin_car_daily_price">Daily Price</string>
+    <string name="admin_car_transmission">Transmission</string>
+    <string name="admin_car_fuel_type">Fuel Type</string>
+    <string name="admin_car_seats">Seats</string>
+    <string name="admin_car_fuel_consumption">Fuel consumption (optional)</string>
+    <string name="admin_car_description">Description (optional)</string>
+    <string name="admin_car_image_url">Image URL (optional)</string>
+    <string name="admin_car_available">Available</string>
+    <string name="admin_empty_cars">No cars found.</string>
+    <string name="admin_delete_car_title">Delete Car</string>
+    <string name="admin_delete_car_message">Delete %1$s %2$s?</string>
+    <string name="admin_action_delete">Delete</string>
+    <string name="admin_action_cancel">Cancel</string>
+    <string name="admin_action_edit">Edit</string>
+    <string name="admin_all_bookings_title">All Bookings</string>
+    <string name="admin_empty_bookings">No bookings found.</string>
 </resources>
 
 
