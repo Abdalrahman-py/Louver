@@ -10,7 +10,9 @@ import android.view.ViewGroup;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.core.content.ContextCompat;
 
+import com.example.louver.R;
 import com.example.louver.databinding.FragmentBookingBinding;
 import com.example.louver.data.auth.SessionManager;
 import com.example.louver.data.calculator.BookingCalculator;
@@ -86,25 +88,25 @@ public class BookingFragment extends Fragment {
     private void attemptNavigateToConfirmation() {
         if (pickupEpochMillis <= 0 || returnEpochMillis <= 0) {
             binding.tvStatus.setText("Error: Set pickup and return times");
-            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             return;
         }
 
         if (carId <= 0) {
             binding.tvStatus.setText("Error: Car ID not found");
-            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             return;
         }
 
         if (returnEpochMillis <= pickupEpochMillis) {
             binding.tvStatus.setText("Error: Return time must be after pickup time");
-            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             return;
         }
 
         if (selectedCar == null) {
             binding.tvStatus.setText("Error: Car details not found");
-            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             return;
         }
 
@@ -116,7 +118,7 @@ public class BookingFragment extends Fragment {
 
         if (!calcResult.isValid) {
             binding.tvStatus.setText("Error: " + calcResult.errorMessage);
-            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             return;
         }
 
@@ -270,10 +272,10 @@ public class BookingFragment extends Fragment {
                         result.totalPrice
                 );
                 binding.tvStatus.setText(message);
-                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_green_dark, null));
+                binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_accent));
             } else {
                 binding.tvStatus.setText("Error: " + result.errorMessage);
-                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+                binding.tvStatus.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_error));
             }
         });
     }
