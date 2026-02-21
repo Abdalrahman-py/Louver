@@ -3,91 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="20dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Confirm Booking"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="16dp" />
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Confirm Booking" android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall" android:textStyle="bold" android:layout_marginBottom="16dp"/>
+    <TextView android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Booking Summary" android:textAppearance="@style/TextAppearance.Material3.TitleMedium" android:textStyle="bold" android:layout_marginBottom="12dp"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Booking Summary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginBottom="12dp" />
+    <TextView android:id="@+id/tv_pickup_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_return_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_days_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="8dp"/>
+    <TextView android:id="@+id/tv_total_summary" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginBottom="24dp" android:textStyle="bold"/>
 
-    <TextView
-        android:id="@+id/tv_pickup_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:id="@+id/tv_return_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:id="@+id/tv_days_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="14sp"
-        android:layout_marginBottom="8dp" />
-
-    <TextView
-        android:id="@+id/tv_total_summary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:textColor="@android:color/holo_green_dark"
-        android:layout_marginBottom="24dp" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_marginBottom="16dp">
-
-        <Button
-            android:id="@+id/btn_confirm_final"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Confirm"
-            android:layout_marginEnd="8dp" />
-
-        <Button
-            android:id="@+id/btn_cancel_booking"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancel"
-            android:layout_marginStart="8dp" />
-
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:layout_marginBottom="16dp">
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_confirm_final" style="@style/Widget.Louver.Button.Primary" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginEnd="8dp" android:text="Confirm"/>
+        <com.google.android.material.button.MaterialButton android:id="@+id/btn_cancel_booking" style="@style/Widget.Louver.Button.Destructive" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:layout_marginStart="8dp" android:text="Cancel"/>
     </LinearLayout>
 
-    <ProgressBar
-        android:id="@+id/progress_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/tv_status_confirm"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=""
-        android:textSize="14sp"
-        android:layout_marginTop="16dp" />
+    <ProgressBar android:id="@+id/progress_confirm" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_horizontal" android:visibility="gone"/>
+    <TextView android:id="@+id/tv_status_confirm" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="16dp"/>
 
 </LinearLayout>
-
