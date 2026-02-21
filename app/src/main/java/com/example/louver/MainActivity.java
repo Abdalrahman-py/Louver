@@ -12,6 +12,7 @@ import android.os.Bundle;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.louver.data.auth.SessionManager;
+import com.example.louver.ui.admin.AdminAccessGuard;
 import com.example.louver.ui.admin.AdminDashboardFragment;
 import com.example.louver.ui.auth.AuthActivity;
 import com.example.louver.ui.favorites.FavoritesFragment;
@@ -84,7 +85,9 @@ public class MainActivity extends AppCompatActivity {
             } else if (id == R.id.drawer_settings) {
                 openFragment(new SettingsFragment(), R.id.nav_settings);
             } else if (id == R.id.drawer_admin_dashboard) {
-                openFragment(new AdminDashboardFragment(), -1);
+                if (AdminAccessGuard.isAdmin(sessionManager)) {
+                    openFragment(new AdminDashboardFragment(), -1);
+                }
             } else if (id == R.id.drawer_logout) {
                 sessionManager.clearSession();
                 Intent intent = new Intent(this, AuthActivity.class);
