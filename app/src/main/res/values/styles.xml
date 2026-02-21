@@ -1,0 +1,54 @@
+<resources>
+    <style name="Widget.Louver.Toolbar" parent="Widget.Material3.Toolbar">
+        <item name="android:background">@color/color_louver_surface_container</item>
+        <item name="titleTextColor">@color/color_louver_primary_text</item>
+        <item name="subtitleTextColor">@color/color_louver_secondary_text</item>
+        <item name="navigationIconTint">@color/color_louver_primary_text</item>
+    </style>
+
+    <style name="Widget.Louver.BottomNavigation" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/color_louver_surface_container</item>
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+        <item name="itemTextColor">@color/bottom_nav_item_color</item>
+    </style>
+
+    <style name="Widget.Louver.NavigationView" parent="Widget.Material3.NavigationView">
+        <item name="android:background">@color/color_louver_surface_container</item>
+        <item name="itemIconTint">@color/bottom_nav_item_color</item>
+        <item name="itemTextColor">@color/bottom_nav_item_color</item>
+    </style>
+
+    <style name="Widget.Louver.Card" parent="Widget.Material3.CardView.Elevated">
+        <item name="cardBackgroundColor">@color/color_louver_surface</item>
+        <item name="cardCornerRadius">16dp</item>
+        <item name="cardElevation">2dp</item>
+    </style>
+
+    <style name="Widget.Louver.Button.Primary" parent="Widget.Material3.Button">
+        <item name="backgroundTint">@color/color_louver_primary_text</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.Louver.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="android:textColor">@color/color_louver_primary_text</item>
+        <item name="strokeColor">@color/color_louver_primary_text</item>
+        <item name="cornerRadius">12dp</item>
+    </style>
+
+    <style name="Widget.Louver.Button.Destructive" parent="Widget.Material3.Button.TextButton">
+        <item name="android:textColor">@color/color_louver_error</item>
+    </style>
+
+    <style name="Widget.Louver.Fab" parent="Widget.MaterialComponents.FloatingActionButton">
+        <item name="backgroundTint">@color/color_louver_accent</item>
+        <item name="tint">@android:color/white</item>
+        <item name="elevation">4dp</item>
+    </style>
+
+    <style name="Widget.Louver.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">
+        <item name="boxBackgroundColor">@color/color_louver_surface_container</item>
+        <item name="boxStrokeColor">@color/color_louver_surface_variant</item>
+        <item name="hintTextColor">@color/color_louver_secondary_text</item>
+    </style>
+</resources>
