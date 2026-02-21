@@ -3,6 +3,7 @@ package com.example.louver.data.entity;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
@@ -26,6 +27,7 @@ public class CategoryEntity {
 
     public CategoryEntity() {}
 
+    @Ignore
     public CategoryEntity(String name, @Nullable String iconUrl) {
         this.name = name;
         this.iconUrl = iconUrl;

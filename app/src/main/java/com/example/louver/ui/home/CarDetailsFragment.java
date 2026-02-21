@@ -9,16 +9,19 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.louver.databinding.FragmentCarDetailsBinding;
 import com.example.louver.ui.booking.BookingFragment;
 import com.example.louver.ui.favorites.FavoritesViewModel;
+import com.example.louver.ui.review.AddReviewFragment;
 
 public class CarDetailsFragment extends Fragment {
 
     private FragmentCarDetailsBinding binding;
     private CarDetailsViewModel viewModel;
     private FavoritesViewModel favoritesViewModel;
+    private ReviewsAdapter reviewsAdapter;
     private long carId;
     private boolean currentIsFavorite = false;
 
@@ -49,12 +52,20 @@ public class CarDetailsFragment extends Fragment {
         viewModel = new ViewModelProvider(this).get(CarDetailsViewModel.class);
         favoritesViewModel = new ViewModelProvider(this).get(FavoritesViewModel.class);
 
+        setupReviewsRecycler();
+        setupButtons();
+
         if (carId >= 0) {
             viewModel.loadCar(carId);
         }
 
-        setupButtons();
         observeData();
+    }
+
+    private void setupReviewsRecycler() {
+        reviewsAdapter = new ReviewsAdapter();
+        binding.reviewsRecycler.setLayoutManager(new LinearLayoutManager(requireContext()));
+        binding.reviewsRecycler.setAdapter(reviewsAdapter);
     }
 
     private void setupButtons() {
@@ -73,6 +84,19 @@ public class CarDetailsFragment extends Fragment {
 
         binding.btnFavorite.setOnClickListener(v -> {
             favoritesViewModel.toggleFavorite(carId, currentIsFavorite);
+        });
+
+        binding.btnWriteReview.setOnClickListener(v -> {
+            AddReviewFragment addReviewFragment = new AddReviewFragment();
+            Bundle args = new Bundle();
+            args.putLong("carId", carId);
+            addReviewFragment.setArguments(args);
+
+            getParentFragmentManager()
+                    .beginTransaction()
+                    .replace(getId(), addReviewFragment)
+                    .addToBackStack(null)
+                    .commit();
         });
     }
 
@@ -96,7 +120,18 @@ public class CarDetailsFragment extends Fragment {
         });
 
         viewModel.getCarWithImages().observe(getViewLifecycleOwner(), carWithImages -> {
-            // Images loaded; can be used for image loading later
+            // ...existing code...
+        });
+
+        viewModel.getReviews().observe(getViewLifecycleOwner(), reviews -> {
+            if (reviews == null || reviews.isEmpty()) {
+                binding.tvNoReviews.setVisibility(View.VISIBLE);
+                binding.reviewsRecycler.setVisibility(View.GONE);
+            } else {
+                binding.tvNoReviews.setVisibility(View.GONE);
+                binding.reviewsRecycler.setVisibility(View.VISIBLE);
+                reviewsAdapter.setReviews(reviews);
+            }
         });
 
         favoritesViewModel.isFavorite(carId).observe(getViewLifecycleOwner(), isFavorite -> {

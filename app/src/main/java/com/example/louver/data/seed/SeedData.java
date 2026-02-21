@@ -1,5 +1,8 @@
 package com.example.louver.data.seed;
 
+import android.util.Log;
+
+import com.example.louver.data.auth.PasswordHasher;
 import com.example.louver.data.converter.FuelType;
 import com.example.louver.data.converter.TransmissionType;
 import com.example.louver.data.db.AppDatabase;
@@ -7,6 +10,7 @@ import com.example.louver.data.entity.AppSettingsEntity;
 import com.example.louver.data.entity.CarEntity;
 import com.example.louver.data.entity.CarImageEntity;
 import com.example.louver.data.entity.CategoryEntity;
+import com.example.louver.data.entity.UserEntity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +20,47 @@ public final class SeedData {
     private SeedData() {}
 
     public static void seed(AppDatabase db) {
-        // Avoid reseeding if settings already exist (simple guard)
+
+        // 0) Users — seeded independently of other data, always checked
+        if (db.userDao().countUsers() == 0) {
+            long userNow = System.currentTimeMillis();
+
+            UserEntity admin = new UserEntity();
+            admin.fullName = "System Admin";
+            admin.email = "admin@louver.com";
+            admin.phone = "0000000000";
+            admin.role = "ADMIN";
+            admin.profileImageUri = null;
+            Log.d("SEED_DEBUG", "Hashing password: [Admin123!]");
+            admin.passwordHash = PasswordHasher.hashPassword("Admin123!".toCharArray());
+            Log.d("SEED_DEBUG", "Admin hash: " + admin.passwordHash);
+            admin.createdAt = userNow;
+            db.userDao().insert(admin);
+
+            UserEntity insertedAdmin = db.userDao().getByEmail("admin@louver.com");
+            if (insertedAdmin != null) {
+                insertedAdmin.role = "ADMIN";
+                db.userDao().update(insertedAdmin);
+            }
+
+            UserEntity demo = new UserEntity();
+            demo.fullName = "Demo User";
+            demo.email = "demo@louver.com";
+            demo.phone = "0599999999";
+            demo.role = "CUSTOMER";
+            demo.profileImageUri = null;
+            demo.passwordHash = PasswordHasher.hashPassword("Demo123!".toCharArray());
+            demo.createdAt = userNow;
+            db.userDao().insert(demo);
+
+            UserEntity insertedDemo = db.userDao().getByEmail("demo@louver.com");
+            if (insertedDemo != null) {
+                insertedDemo.role = "CUSTOMER";
+                db.userDao().update(insertedDemo);
+            }
+        }
+
+        // Avoid reseeding cars/categories/settings if already seeded
         AppSettingsEntity existing = db.settingsDao().getSettingsNow();
         if (existing != null) return;
 

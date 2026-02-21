@@ -10,7 +10,8 @@ public class SessionManager {
 
     private static final String PREFS_NAME = "louver_session_prefs";
     private static final String KEY_USER_ID = "logged_in_user_id";
-    private static final String KEY_EMAIL = "logged_in_email"; // optional
+    private static final String KEY_EMAIL = "logged_in_email";
+    private static final String KEY_ROLE = "logged_in_role";
 
     private final SharedPreferences prefs;
 
@@ -34,10 +35,19 @@ public class SessionManager {
         editor.apply();
     }
 
+    public void saveUserSession(long userId, @Nullable String email, @Nullable String role) {
+        SharedPreferences.Editor editor = prefs.edit()
+                .putLong(KEY_USER_ID, userId);
+        if (email != null) editor.putString(KEY_EMAIL, email);
+        if (role != null) editor.putString(KEY_ROLE, role);
+        editor.apply();
+    }
+
     public void clearSession() {
         prefs.edit()
                 .remove(KEY_USER_ID)
                 .remove(KEY_EMAIL)
+                .remove(KEY_ROLE)
                 .apply();
     }
 
@@ -52,5 +62,10 @@ public class SessionManager {
     @Nullable
     public String getEmail() {
         return prefs.getString(KEY_EMAIL, null);
+    }
+
+    @Nullable
+    public String getUserRole() {
+        return prefs.getString(KEY_ROLE, null);
     }
 }

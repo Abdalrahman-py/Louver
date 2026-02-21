@@ -1,6 +1,7 @@
 package com.example.louver.data.auth;
 
 import android.database.sqlite.SQLiteConstraintException;
+import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -86,6 +87,7 @@ public class AuthRepository {
             user.fullName = fullName.trim();
             user.email = normEmail;
             user.phone = (phone == null || phone.trim().isEmpty()) ? null : phone.trim();
+            user.role = "CUSTOMER";
             user.createdAt = System.currentTimeMillis();
 
             user.passwordHash = PasswordHasher.hashPassword(password); // wipes password internally
@@ -121,13 +123,18 @@ public class AuthRepository {
                 return;
             }
 
+            Log.d("LOGIN_DEBUG", "Entered email: " + normEmail);
+            Log.d("LOGIN_DEBUG", "DB email: " + user.email);
+            Log.d("LOGIN_DEBUG", "Stored hash: " + user.passwordHash);
+
             boolean ok = PasswordHasher.verifyPassword(password, user.passwordHash); // wipes password internally
+            Log.d("LOGIN_DEBUG", "Password match: " + ok);
             if (!ok) {
                 result.postValue(AuthResult.error("Invalid email or password."));
                 return;
             }
 
-            sessionManager.saveUserSession(user.id, normEmail);
+            sessionManager.saveUserSession(user.id, normEmail, user.role);
             currentUserId.postValue(user.id);
             result.postValue(AuthResult.ok());
         });

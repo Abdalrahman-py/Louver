@@ -17,6 +17,7 @@ import com.example.louver.data.calculator.BookingCalculator;
 import com.example.louver.data.calculator.BookingCalculationResult;
 import com.example.louver.data.repository.BookingRepository;
 import com.example.louver.data.repository.RepositoryProvider;
+import com.example.louver.data.entity.CarEntity;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -30,6 +31,8 @@ public class BookingFragment extends Fragment {
     private long pickupEpochMillis = 0;
     private long returnEpochMillis = 0;
     private long carId = 0;
+    // Holds the latest car value delivered by the observer registered in observeViewModel()
+    private CarEntity selectedCar = null;
 
     private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US);
 
@@ -58,6 +61,9 @@ public class BookingFragment extends Fragment {
         SessionManager sessionManager = new SessionManager(requireContext());
         viewModel = new BookingViewModel(bookingRepository, sessionManager);
 
+        // Initialize car repository with context
+        viewModel.initCarRepository(requireContext());
+
         setupUI();
         observeViewModel();
     }
@@ -74,51 +80,47 @@ public class BookingFragment extends Fragment {
 
         // Confirm booking - initially disabled
         binding.btnConfirmBooking.setEnabled(false);
-        binding.btnConfirmBooking.setOnClickListener(v -> {
-            if (pickupEpochMillis <= 0 || returnEpochMillis <= 0) {
-                binding.tvStatus.setText("Error: Set pickup and return times");
-                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
-                return;
-            }
+        binding.btnConfirmBooking.setOnClickListener(v -> attemptNavigateToConfirmation());
+    }
 
-            if (carId <= 0) {
-                binding.tvStatus.setText("Error: Car ID not found");
-                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
-                return;
-            }
+    private void attemptNavigateToConfirmation() {
+        if (pickupEpochMillis <= 0 || returnEpochMillis <= 0) {
+            binding.tvStatus.setText("Error: Set pickup and return times");
+            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            return;
+        }
 
-            // Validate return is after pickup
-            if (returnEpochMillis <= pickupEpochMillis) {
-                binding.tvStatus.setText("Error: Return time must be after pickup time");
-                binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
-                return;
-            }
+        if (carId <= 0) {
+            binding.tvStatus.setText("Error: Car ID not found");
+            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            return;
+        }
 
-            // Get car to retrieve daily price
-            viewModel.getSelectedCar().observe(getViewLifecycleOwner(), car -> {
-                if (car == null) {
-                    binding.tvStatus.setText("Error: Car details not found");
-                    binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
-                    return;
-                }
+        if (returnEpochMillis <= pickupEpochMillis) {
+            binding.tvStatus.setText("Error: Return time must be after pickup time");
+            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            return;
+        }
 
-                // Validate and calculate booking details
-                BookingCalculationResult calcResult = BookingCalculator.validateAndCalculate(
-                        pickupEpochMillis,
-                        returnEpochMillis,
-                        car.dailyPrice
-                );
+        if (selectedCar == null) {
+            binding.tvStatus.setText("Error: Car details not found");
+            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            return;
+        }
 
-                if (!calcResult.isValid) {
-                    binding.tvStatus.setText("Error: " + calcResult.errorMessage);
-                    binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
-                    return;
-                }
+        BookingCalculationResult calcResult = BookingCalculator.validateAndCalculate(
+                pickupEpochMillis,
+                returnEpochMillis,
+                selectedCar.dailyPrice
+        );
 
-                // Navigate to confirmation fragment with booking details
-                navigateToConfirmation(carId, pickupEpochMillis, returnEpochMillis, calcResult.daysCount, calcResult.totalPrice);
-            });
-        });
+        if (!calcResult.isValid) {
+            binding.tvStatus.setText("Error: " + calcResult.errorMessage);
+            binding.tvStatus.setTextColor(getResources().getColor(android.R.color.holo_red_light, null));
+            return;
+        }
+
+        navigateToConfirmation(carId, pickupEpochMillis, returnEpochMillis, calcResult.daysCount, calcResult.totalPrice);
     }
 
     private void showDateTimePickerForPickup() {
@@ -244,6 +246,11 @@ public class BookingFragment extends Fragment {
     }
 
     private void observeViewModel() {
+        // Observe selected car — registered once, result stored in field for click listener use
+        viewModel.getSelectedCar().observe(getViewLifecycleOwner(), car -> {
+            selectedCar = car;
+        });
+
         // Observe loading state
         viewModel.getIsLoading().observe(getViewLifecycleOwner(), isLoading -> {
             binding.btnConfirmBooking.setEnabled(!isLoading && pickupEpochMillis > 0 && returnEpochMillis > 0);
@@ -277,8 +284,3 @@ public class BookingFragment extends Fragment {
         binding = null;
     }
 }
-
-
-
-
-

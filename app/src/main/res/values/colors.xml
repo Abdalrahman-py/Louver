@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="color_louver_primary">#004225</color>
+    <color name="color_louver_primary_dark">#002E19</color>
+    <color name="color_louver_primary_light">#0F5A3A</color>
+    <color name="color_louver_secondary">#FFB000</color>
+    <color name="color_louver_secondary_dark">#CC8A00</color>
+    <color name="color_louver_background">#F4F7F5</color>
+    <color name="color_louver_surface">#FFFFFF</color>
+    <color name="color_louver_surface_variant">#E3ECE8</color>
+    <color name="color_louver_surface_variant_dark">#1A3A2B</color>
+    <color name="color_louver_on_primary">#FFFFFF</color>
+    <color name="color_louver_on_secondary">#1A1A1A</color>
 </resources>

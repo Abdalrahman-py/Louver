@@ -66,6 +66,11 @@ public final class BookingCalculator {
             return BookingCalculationResult.error("Daily price must be >= 0");
         }
 
+        // Check: pickup must be in the future
+        if (pickupEpochMillis < System.currentTimeMillis()) {
+            return BookingCalculationResult.error("Pickup must be in the future");
+        }
+
         // Check: pickup must be before return
         if (pickupEpochMillis >= returnEpochMillis) {
             return BookingCalculationResult.error(

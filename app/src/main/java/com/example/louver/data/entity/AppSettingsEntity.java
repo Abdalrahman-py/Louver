@@ -3,6 +3,7 @@ package com.example.louver.data.entity;
 import androidx.annotation.Nullable;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "app_settings")
@@ -26,6 +27,7 @@ public class AppSettingsEntity {
 
     public AppSettingsEntity() {}
 
+    @Ignore
     public AppSettingsEntity(int id, String languageCode, boolean darkModeEnabled,
                              boolean notificationsEnabled, @Nullable Long lastLoggedInUserId) {
         this.id = id;

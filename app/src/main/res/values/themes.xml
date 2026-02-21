@@ -1,15 +1,22 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.Louver" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+<resources>
+    <style name="Theme.Louver" parent="Theme.Material3.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/color_louver_primary</item>
+        <item name="colorOnPrimary">@color/color_louver_on_primary</item>
+        <item name="colorSecondary">@color/color_louver_secondary</item>
+        <item name="colorOnSecondary">@color/color_louver_on_secondary</item>
+        <item name="android:colorBackground">@color/color_louver_background</item>
+        <item name="colorSurface">@color/color_louver_surface</item>
+        <item name="colorSurfaceVariant">@color/color_louver_surface_variant</item>
+        <item name="materialButtonStyle">@style/Widget.MaterialButton.Louver</item>
     </style>
 
-    <style name="Theme.Louver" parent="Base.Theme.Louver" />
+    <style name="Widget.MaterialButton.Louver" parent="Widget.Material3.Button">
+        <item name="android:textColor">@color/color_louver_on_primary</item>
+    </style>
 
     <style name="Theme.Louver.Splash" parent="Theme.SplashScreen">
-        <item name="windowSplashScreenBackground">#0F172A</item>
-        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher</item>
+        <item name="windowSplashScreenBackground">@color/color_louver_primary</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_louver_logo</item>
         <item name="postSplashScreenTheme">@style/Theme.Louver</item>
     </style>
 </resources>

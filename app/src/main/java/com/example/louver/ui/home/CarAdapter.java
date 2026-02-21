@@ -7,10 +7,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
-
+import com.example.louver.data.dao.ReviewDao;
 import com.example.louver.data.entity.CarEntity;
 import com.example.louver.databinding.ItemCarBinding;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.function.Consumer;
 
@@ -18,6 +21,7 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
 
     private final Consumer<CarEntity> onCarClick;
     private final Consumer<Long> onBookClick;
+    private final Map<Long, ReviewDao.RatingSummary> ratingSummaries = new HashMap<>();
 
     public CarAdapter(Consumer<CarEntity> onCarClick) {
         this(onCarClick, null);
@@ -27,6 +31,16 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
         super(DIFF);
         this.onCarClick = onCarClick;
         this.onBookClick = onBookClick;
+    }
+
+    public void setRatingSummaries(List<ReviewDao.RatingSummary> summaries) {
+        ratingSummaries.clear();
+        if (summaries != null) {
+            for (ReviewDao.RatingSummary summary : summaries) {
+                ratingSummaries.put(summary.carId, summary);
+            }
+        }
+        notifyDataSetChanged();
     }
 
     @NonNull
@@ -42,7 +56,7 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
 
     @Override
     public void onBindViewHolder(@NonNull VH holder, int position) {
-        holder.bind(getItem(position));
+        holder.bind(getItem(position), ratingSummaries.get(getItem(position).id));
     }
 
     class VH extends RecyclerView.ViewHolder {
@@ -66,13 +80,21 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
             });
         }
 
-        void bind(CarEntity car) {
+        void bind(CarEntity car, ReviewDao.RatingSummary rating) {
             binding.carName.setText(car.name);
             binding.carModel.setText(String.format("%s • %d", car.model, car.year));
             binding.carPrice.setText(String.format("$%.2f / day", car.dailyPrice));
             binding.carMeta.setText(String.format("%d seats • %s • %s",
                     car.seats, car.transmission, car.fuelType));
             binding.availability.setText(car.isAvailable ? "Available" : "Not available");
+            binding.carRating.setText(formatRating(rating));
+        }
+
+        private String formatRating(ReviewDao.RatingSummary rating) {
+            if (rating == null || rating.reviewCount == 0) {
+                return "No reviews";
+            }
+            return String.format("%.1f/5 (%d)", rating.averageRating, rating.reviewCount);
         }
     }
 
@@ -91,8 +113,8 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
                             && oldItem.year == newItem.year
                             && oldItem.dailyPrice == newItem.dailyPrice
                             && oldItem.isAvailable == newItem.isAvailable
-                            && oldItem.transmission == newItem.transmission
-                            && oldItem.fuelType == newItem.fuelType
+                            && Objects.equals(oldItem.transmission, newItem.transmission)
+                            && Objects.equals(oldItem.fuelType, newItem.fuelType)
                             && oldItem.seats == newItem.seats
                             && Objects.equals(oldItem.fuelConsumption, newItem.fuelConsumption)
                             && Objects.equals(oldItem.description, newItem.description)

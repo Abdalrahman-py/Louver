@@ -34,6 +34,9 @@ public class UserEntity {
     @ColumnInfo(name = "profileImageUri")
     public String profileImageUri;
 
+    @ColumnInfo(name = "role")
+    public String role;
+
     @ColumnInfo(name = "createdAt")
     public long createdAt;
 

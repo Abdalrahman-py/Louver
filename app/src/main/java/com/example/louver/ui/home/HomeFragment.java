@@ -1,9 +1,12 @@
 package com.example.louver.ui.home;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -13,9 +16,6 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.louver.databinding.FragmentHomeBinding;
-import com.example.louver.ui.favorites.FavoritesFragment;
-import com.example.louver.ui.mybookings.MyBookingsFragment;
-import com.example.louver.ui.settings.SettingsFragment;
 
 public class HomeFragment extends Fragment {
 
@@ -78,6 +78,7 @@ public class HomeFragment extends Fragment {
         binding.carsRecycler.setLayoutManager(
                 new LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
         );
+        binding.carsRecycler.setNestedScrollingEnabled(true);
 
         carAdapter = new CarAdapter(
                 car -> {
@@ -113,43 +114,31 @@ public class HomeFragment extends Fragment {
     }
 
     private void setupActions() {
-        binding.searchButton.setOnClickListener(v -> {
-            String q = binding.searchInput.getText().toString().trim();
-            // Update search query; category filter is preserved via MediatorLiveData
+        // Trigger search via end icon tap
+        binding.searchRow.setEndIconOnClickListener(v -> {
+            String q = binding.searchInput.getText() != null
+                    ? binding.searchInput.getText().toString().trim() : "";
             viewModel.setSearchQuery(q);
         });
 
-        binding.resetButton.setOnClickListener(v -> {
-            binding.searchInput.setText("");
-            categoryAdapter.setSelectedCategoryId(-1L);
-            viewModel.clearAllFilters();
+        // Trigger search via IME action (keyboard search button)
+        binding.searchInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                String q = binding.searchInput.getText() != null
+                        ? binding.searchInput.getText().toString().trim() : "";
+                viewModel.setSearchQuery(q);
+                return true;
+            }
+            return false;
         });
 
-        binding.btnFavorites.setOnClickListener(v -> {
-            FavoritesFragment favoritesFragment = new FavoritesFragment();
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(getId(), favoritesFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        binding.btnBookings.setOnClickListener(v -> {
-            MyBookingsFragment bookingsFragment = new MyBookingsFragment();
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(getId(), bookingsFragment)
-                    .addToBackStack(null)
-                    .commit();
-        });
-
-        binding.btnSettings.setOnClickListener(v -> {
-            SettingsFragment settingsFragment = new SettingsFragment();
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(getId(), settingsFragment)
-                    .addToBackStack(null)
-                    .commit();
+        // Live search as user types; empty text reloads full list
+        binding.searchInput.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                viewModel.setSearchQuery(s.toString().trim());
+            }
+            @Override public void afterTextChanged(Editable s) {}
         });
     }
 

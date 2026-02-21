@@ -85,15 +85,28 @@ public class BookingRepository {
                 return;
             }
 
-            // Step 2: Check car availability
-            if (!car.isAvailable) {
+            // Step 2: Check for overlapping active bookings (always, regardless of isAvailable)
+            boolean hasOverlap = db.bookingDao().hasOverlappingActiveBooking(
+                    carId,
+                    pickupEpochMillis,
+                    returnEpochMillis
+            );
+            if (hasOverlap) {
                 if (callback != null) {
-                    callback.onComplete(PlaceBookingResult.error("Car is not available"));
+                    callback.onComplete(PlaceBookingResult.error("Car already booked for selected time range"));
                 }
                 return;
             }
 
-            // Step 3: Validate time range and calculate days/price
+            // Step 3: Check car availability flag
+            if (!car.isAvailable) {
+                if (callback != null) {
+                    callback.onComplete(PlaceBookingResult.error("Car is currently unavailable"));
+                }
+                return;
+            }
+
+            // Step 4: Validate time range and calculate days/price
             BookingCalculationResult calc = BookingCalculator.validateAndCalculate(
                     pickupEpochMillis,
                     returnEpochMillis,

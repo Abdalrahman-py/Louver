@@ -118,9 +118,7 @@ public class RegisterFragment extends Fragment {
 
         char[] password = passStr.toCharArray();
         vm.register(fullName, email, password, phone.isEmpty() ? null : phone);
-
-        // wipe local copy too
-        wipe(password);
+        // Note: password array is wiped by PasswordHasher.hashPassword() on the background thread.
         etPassword.setText("");
         etConfirm.setText("");
     }
@@ -140,9 +138,5 @@ public class RegisterFragment extends Fragment {
 
     private static String textOf(TextInputEditText et) {
         return et.getText() == null ? "" : et.getText().toString().trim();
-    }
-
-    private static void wipe(char[] arr) {
-        for (int i = 0; i < arr.length; i++) arr[i] = '\0';
     }
 }

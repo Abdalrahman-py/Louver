@@ -97,9 +97,7 @@ public class LoginFragment extends Fragment {
 
         char[] password = passStr.toCharArray();
         vm.login(email, password);
-
-        // wipe local copy too
-        wipe(password);
+        // Note: password array is wiped by PasswordHasher.verifyPassword() on the background thread.
         etPassword.setText("");
     }
 
@@ -115,9 +113,5 @@ public class LoginFragment extends Fragment {
 
     private static String textOf(TextInputEditText et) {
         return et.getText() == null ? "" : et.getText().toString().trim();
-    }
-
-    private static void wipe(char[] arr) {
-        for (int i = 0; i < arr.length; i++) arr[i] = '\0';
     }
 }

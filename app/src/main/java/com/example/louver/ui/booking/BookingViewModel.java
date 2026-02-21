@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.louver.data.auth.SessionManager;
-import com.example.louver.data.entity.CarEntity;
 import com.example.louver.data.repository.BookingRepository;
 import com.example.louver.data.repository.CarRepository;
 import com.example.louver.data.repository.DbCallback;
@@ -27,7 +26,7 @@ public class BookingViewModel extends ViewModel {
 
     private final BookingRepository bookingRepository;
     private final SessionManager sessionManager;
-    private final CarRepository carRepository;
+    private CarRepository carRepository;
 
     private final MutableLiveData<PlaceBookingResult> bookingResultLD = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isLoadingLD = new MutableLiveData<>(false);
@@ -40,14 +39,23 @@ public class BookingViewModel extends ViewModel {
     ) {
         this.bookingRepository = bookingRepository;
         this.sessionManager = sessionManager;
-        this.carRepository = RepositoryProvider.cars(null);
+        this.carRepository = null;
     }
 
     /**
      * Load car details by carId.
      */
     public void loadCar(long carId) {
-        selectedCarLD = carRepository.getCarById(carId);
+        if (carRepository != null) {
+            selectedCarLD = carRepository.getCarById(carId);
+        }
+    }
+
+    /**
+     * Initialize car repository with context (must be called before loadCar).
+     */
+    public void initCarRepository(android.content.Context context) {
+        this.carRepository = RepositoryProvider.cars(context);
     }
 
     /**
@@ -109,15 +117,12 @@ public class BookingViewModel extends ViewModel {
                 carId,
                 pickupEpochMillis,
                 returnEpochMillis,
-                new DbCallback<PlaceBookingResult>() {
-                    @Override
-                    public void onComplete(PlaceBookingResult result) {
-                        // Post result to UI
-                        bookingResultLD.postValue(result);
+                result -> {
+                    // Post result to UI
+                    bookingResultLD.postValue(result);
 
-                        // Stop loading
-                        isLoadingLD.postValue(false);
-                    }
+                    // Stop loading
+                    isLoadingLD.postValue(false);
                 }
         );
     }

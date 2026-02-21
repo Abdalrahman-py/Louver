@@ -45,7 +45,7 @@ import java.util.concurrent.Executors;
                 AppSettingsEntity.class,
                 NotificationEntity.class
         },
-        version = 1,
+        version = 3,
         exportSchema = false
 )
 @TypeConverters({AppTypeConverters.class})
@@ -75,6 +75,7 @@ public abstract class AppDatabase extends RoomDatabase {
                                     AppDatabase.class,
                                     "louver_db"
                             )
+                            .fallbackToDestructiveMigrationFrom(1, 2)
                             .addCallback(new Callback() {
                                 @Override
                                 public void onCreate(@NonNull SupportSQLiteDatabase db) {
