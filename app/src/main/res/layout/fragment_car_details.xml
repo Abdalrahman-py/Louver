@@ -91,7 +91,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_book"
-                style="@style/Widget.Louver.Button.Primary"
+                style="@style/AppButton.Primary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -100,7 +100,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_favorite"
-                style="@style/Widget.Louver.Button.Secondary"
+                style="@style/AppButton.Secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -110,7 +110,7 @@
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btn_write_review"
-                style="@style/Widget.Louver.Button.Secondary"
+                style="@style/AppButton.Secondary"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"

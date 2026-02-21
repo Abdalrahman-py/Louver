@@ -11,11 +11,15 @@
         <item name="colorOnSurface">@color/color_louver_primary_text</item>
         <item name="colorSurfaceVariant">@color/color_louver_surface</item>
         <item name="colorOnSurfaceVariant">@color/color_louver_secondary_text</item>
+        <item name="colorPrimaryContainer">@color/color_louver_accent_container</item>
+        <item name="colorOnPrimaryContainer">@color/color_louver_accent</item>
+        <item name="colorSecondaryContainer">@color/color_louver_accent_container</item>
+        <item name="colorOnSecondaryContainer">@color/color_louver_accent</item>
 
         <item name="toolbarStyle">@style/Widget.Louver.Toolbar</item>
         <item name="bottomNavigationStyle">@style/Widget.Louver.BottomNavigation</item>
-        <item name="materialButtonStyle">@style/Widget.Louver.Button.Primary</item>
-        <item name="materialButtonOutlinedStyle">@style/Widget.Louver.Button.Secondary</item>
+        <item name="materialButtonStyle">@style/AppButton.Primary</item>
+        <item name="materialButtonOutlinedStyle">@style/AppButton.Secondary</item>
         <item name="floatingActionButtonStyle">@style/Widget.Louver.Fab</item>
         <item name="materialCardViewStyle">@style/Widget.Louver.Card</item>
         <item name="textInputStyle">@style/Widget.Louver.TextInputLayout</item>

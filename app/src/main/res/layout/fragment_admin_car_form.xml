@@ -198,7 +198,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnSaveCar"
-        style="@style/Widget.Louver.Button.Primary"
+        style="@style/AppButton.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="16dp"

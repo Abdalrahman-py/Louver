@@ -6,6 +6,7 @@
     <color name="color_louver_primary_text">#111111</color>
     <color name="color_louver_secondary_text">#6B7280</color>
     <color name="color_louver_accent">#2563EB</color>
+    <color name="color_louver_accent_container">#EFF6FF</color>
     <color name="color_louver_error">#DC2626</color>
 
     <color name="color_louver_primary">@color/color_louver_primary_text</color>

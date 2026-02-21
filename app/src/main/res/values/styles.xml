@@ -10,12 +10,20 @@
         <item name="android:background">@color/color_louver_surface_container</item>
         <item name="itemIconTint">@color/bottom_nav_item_color</item>
         <item name="itemTextColor">@color/bottom_nav_item_color</item>
+        <item name="itemActiveIndicatorStyle">@style/Widget.Louver.BottomNavigation.ActiveIndicator</item>
+        <item name="itemRippleColor">@color/color_louver_accent_container</item>
+    </style>
+
+    <style name="Widget.Louver.BottomNavigation.ActiveIndicator" parent="Widget.Material3.NavigationBar.ActiveIndicator">
+        <item name="android:color">@color/color_louver_accent_container</item>
+        <item name="shapeAppearance">@style/ShapeAppearance.Louver.SmallComponent</item>
     </style>
 
     <style name="Widget.Louver.NavigationView" parent="Widget.Material3.NavigationView">
         <item name="android:background">@color/color_louver_surface_container</item>
         <item name="itemIconTint">@color/bottom_nav_item_color</item>
         <item name="itemTextColor">@color/bottom_nav_item_color</item>
+        <item name="itemRippleColor">@color/color_louver_accent_container</item>
     </style>
 
     <style name="Widget.Louver.Card" parent="Widget.Material3.CardView.Elevated">
@@ -24,26 +32,54 @@
         <item name="cardElevation">2dp</item>
     </style>
 
-    <style name="Widget.Louver.Button.Primary" parent="Widget.Material3.Button">
+    <style name="ShapeAppearance.Louver.SmallComponent" parent="ShapeAppearance.Material3.Corner.Full">
+        <item name="cornerSize">12dp</item>
+    </style>
+
+    <style name="AppButton.Base" parent="Widget.Material3.Button">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
+    </style>
+
+    <style name="AppButton.Primary" parent="AppButton.Base">
         <item name="backgroundTint">@color/color_louver_primary_text</item>
         <item name="android:textColor">@android:color/white</item>
-        <item name="cornerRadius">12dp</item>
     </style>
 
-    <style name="Widget.Louver.Button.Secondary" parent="Widget.Material3.Button.OutlinedButton">
-        <item name="android:textColor">@color/color_louver_primary_text</item>
+    <style name="AppButton.Secondary" parent="Widget.Material3.Button.OutlinedButton">
+        <item name="cornerRadius">12dp</item>
+        <item name="android:minHeight">48dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textStyle">bold</item>
         <item name="strokeColor">@color/color_louver_primary_text</item>
-        <item name="cornerRadius">12dp</item>
+        <item name="strokeWidth">1dp</item>
+        <item name="android:textColor">@color/color_louver_primary_text</item>
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:paddingStart">16dp</item>
+        <item name="android:paddingEnd">16dp</item>
     </style>
 
-    <style name="Widget.Louver.Button.Destructive" parent="Widget.Material3.Button.TextButton">
-        <item name="android:textColor">@color/color_louver_error</item>
+    <style name="AppButton.Destructive" parent="AppButton.Base">
+        <item name="backgroundTint">@color/color_louver_error</item>
+        <item name="android:textColor">@android:color/white</item>
     </style>
+
+    <style name="Widget.Louver.Button.Primary" parent="AppButton.Primary" />
+    <style name="Widget.Louver.Button.Secondary" parent="AppButton.Secondary" />
+    <style name="Widget.Louver.Button.Destructive" parent="AppButton.Destructive" />
 
     <style name="Widget.Louver.Fab" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/color_louver_accent</item>
         <item name="tint">@android:color/white</item>
         <item name="elevation">4dp</item>
+        <item name="rippleColor">@color/color_louver_accent_container</item>
     </style>
 
     <style name="Widget.Louver.TextInputLayout" parent="Widget.Material3.TextInputLayout.OutlinedBox">

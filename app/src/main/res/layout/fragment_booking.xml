@@ -7,7 +7,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_select_pickup"
-        style="@style/Widget.Louver.Button.Secondary"
+        style="@style/AppButton.Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select Pickup Date &amp; Time" />
@@ -24,7 +24,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_select_return"
-        style="@style/Widget.Louver.Button.Secondary"
+        style="@style/AppButton.Secondary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Select Return Date &amp; Time" />
@@ -41,7 +41,7 @@
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btn_confirm_booking"
-        style="@style/Widget.Louver.Button.Primary"
+        style="@style/AppButton.Primary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="16dp"
