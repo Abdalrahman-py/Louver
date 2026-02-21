@@ -12,7 +12,7 @@
         <item name="colorSurfaceVariant">@color/color_louver_surface</item>
         <item name="colorOnSurfaceVariant">@color/color_louver_secondary_text</item>
 
-        <item name="materialToolbarStyle">@style/Widget.Louver.Toolbar</item>
+        <item name="toolbarStyle">@style/Widget.Louver.Toolbar</item>
         <item name="bottomNavigationStyle">@style/Widget.Louver.BottomNavigation</item>
         <item name="materialButtonStyle">@style/Widget.Louver.Button.Primary</item>
         <item name="materialButtonOutlinedStyle">@style/Widget.Louver.Button.Secondary</item>

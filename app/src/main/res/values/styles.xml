@@ -40,7 +40,7 @@
         <item name="android:textColor">@color/color_louver_error</item>
     </style>
 
-    <style name="Widget.Louver.Fab" parent="Widget.Material3.FloatingActionButton">
+    <style name="Widget.Louver.Fab" parent="Widget.MaterialComponents.FloatingActionButton">
         <item name="backgroundTint">@color/color_louver_accent</item>
         <item name="tint">@android:color/white</item>
         <item name="elevation">4dp</item>
