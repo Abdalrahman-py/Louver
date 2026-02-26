@@ -1,6 +1,8 @@
 package com.example.louver.ui.admin;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -185,6 +187,18 @@ public class AdminCarFormFragment extends Fragment {
     }
 
     private void setupSaveButton() {
+        // Set initial preview state
+        updateImagePreview(text(binding.inputMainImage));
+
+        // Update preview live as the admin types a URL
+        binding.inputMainImage.addTextChangedListener(new TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                updateImagePreview(s != null ? s.toString() : "");
+            }
+            @Override public void afterTextChanged(Editable s) {}
+        });
+
         binding.btnSaveCar.setOnClickListener(v -> viewModel.saveCar(
                 editingCar,
                 text(binding.inputCategoryId),
@@ -200,6 +214,23 @@ public class AdminCarFormFragment extends Fragment {
                 text(binding.inputDescription),
                 text(binding.inputMainImage)
         ));
+    }
+
+    /**
+     * Show placeholder preview when no real URL is provided; otherwise keep placeholder
+     * (no image loading library — just signals that a real URL is stored).
+     */
+    private void updateImagePreview(String url) {
+        // Always show placeholder drawable (no Glide yet).
+        // If a real URL is entered, tag it for future use.
+        binding.ivImagePreview.setImageResource(R.drawable.ic_car_placeholder);
+        if (url != null && !url.trim().isEmpty()
+                && !url.trim().equalsIgnoreCase("placeholder")
+                && !url.trim().startsWith("https://example.com/")) {
+            binding.ivImagePreview.setTag(url.trim());
+        } else {
+            binding.ivImagePreview.setTag(null);
+        }
     }
 
     private void observeViewModel() {

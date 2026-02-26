@@ -13,6 +13,15 @@
         android:orientation="vertical"
         android:padding="16dp">
 
+        <ImageView
+            android:id="@+id/carImage"
+            android:layout_width="match_parent"
+            android:layout_height="160dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Car image"
+            android:src="@drawable/ic_car_placeholder" />
+
         <TextView
             android:id="@+id/carName"
             android:layout_width="match_parent"

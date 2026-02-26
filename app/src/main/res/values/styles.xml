@@ -10,7 +10,6 @@
         <item name="android:background">@color/color_louver_surface_container</item>
         <item name="itemIconTint">@color/bottom_nav_item_color</item>
         <item name="itemTextColor">@color/bottom_nav_item_color</item>
-        <item name="itemActiveIndicatorColor">@color/color_louver_accent_container</item>
         <item name="itemRippleColor">@color/color_louver_accent_container</item>
     </style>
 

@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.louver.databinding.FragmentCarDetailsBinding;
+import com.example.louver.R;
 import com.example.louver.ui.booking.BookingFragment;
 import com.example.louver.ui.favorites.FavoritesViewModel;
 import com.example.louver.ui.review.AddReviewFragment;
@@ -120,7 +121,34 @@ public class CarDetailsFragment extends Fragment {
         });
 
         viewModel.getCarWithImages().observe(getViewLifecycleOwner(), carWithImages -> {
-            // ...existing code...
+            if (carWithImages == null) {
+                binding.carImage.setImageResource(R.drawable.ic_car_placeholder);
+                return;
+            }
+
+            // Check car_images table entries first
+            boolean hasRealImage = false;
+            if (carWithImages.images != null) {
+                for (com.example.louver.data.entity.CarImageEntity img : carWithImages.images) {
+                    if (!CarImageUtils.isPlaceholder(img.imageUrl)) {
+                        hasRealImage = true;
+                        // Real URL found — tag for future Glide integration
+                        binding.carImage.setTag(img.imageUrl);
+                        break;
+                    }
+                }
+            }
+
+            // Also check mainImageUrl on the car itself
+            if (!hasRealImage && carWithImages.car != null) {
+                hasRealImage = !CarImageUtils.isPlaceholder(carWithImages.car.mainImageUrl);
+                if (hasRealImage) {
+                    binding.carImage.setTag(carWithImages.car.mainImageUrl);
+                }
+            }
+
+            // Always show placeholder for now (no image-loading library yet)
+            binding.carImage.setImageResource(R.drawable.ic_car_placeholder);
         });
 
         viewModel.getReviews().observe(getViewLifecycleOwner(), reviews -> {

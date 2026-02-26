@@ -12,7 +12,16 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView android:id="@+id/tv_car_id" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Car ID: 0" android:textStyle="bold"/>
+        <ImageView
+            android:id="@+id/iv_car_image"
+            android:layout_width="match_parent"
+            android:layout_height="140dp"
+            android:layout_marginBottom="12dp"
+            android:scaleType="centerCrop"
+            android:contentDescription="Car image"
+            android:src="@drawable/ic_car_placeholder" />
+
+        <TextView android:id="@+id/tv_car_name" android:layout_width="match_parent" android:layout_height="wrap_content" android:text="Car" android:textStyle="bold"/>
         <TextView android:id="@+id/tv_pickup" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:text="Pickup: " android:textColor="?attr/colorOnSurfaceVariant"/>
         <TextView android:id="@+id/tv_return" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="2dp" android:text="Return: " android:textColor="?attr/colorOnSurfaceVariant"/>
 

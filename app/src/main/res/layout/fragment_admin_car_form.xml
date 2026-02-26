@@ -175,15 +175,42 @@
                 style="@style/Widget.Louver.TextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="12dp"
+                android:layout_marginBottom="4dp"
                 android:hint="@string/admin_car_image_url"
-                app:helperTextEnabled="false">
+                app:helperTextEnabled="true"
+                app:helperText="Optional — leave empty to use placeholder">
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/inputMainImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textUri" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <!-- Placeholder preview shown below the image URL field -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="16dp">
+
+                <ImageView
+                    android:id="@+id/ivImagePreview"
+                    android:layout_width="80dp"
+                    android:layout_height="48dp"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="Image preview"
+                    android:src="@drawable/ic_car_placeholder" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="12dp"
+                    android:text="Default placeholder shown when no URL is provided."
+                    android:textAppearance="@style/TextAppearance.Material3.BodySmall"
+                    android:textColor="?attr/colorOnSurfaceVariant" />
+            </LinearLayout>
 
             <com.google.android.material.switchmaterial.SwitchMaterial
                 android:id="@+id/switchAvailable"

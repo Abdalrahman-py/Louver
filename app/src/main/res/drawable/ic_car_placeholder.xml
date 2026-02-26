@@ -1,0 +1,53 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="140dp"
+    android:viewportWidth="240"
+    android:viewportHeight="140">
+
+    <!-- Dark background -->
+    <path
+        android:fillColor="#2A2A2A"
+        android:pathData="M0,0 H240 V140 H0 Z" />
+
+    <!--
+        Lucide "car" icon scaled 5x and centered in 240x140:
+          offsetX = (240 - 24*5) / 2 = 60
+          offsetY = (140 - 24*5) / 2 = 10
+        Transform: x' = x*5 + 60,  y' = y*5 + 10
+    -->
+
+    <!-- Car body -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M155,95 L165,95 C168,95 165,93 165,90 L165,75 C165,70.5 161.5,66.5 157.5,65.5 C153.5,64.5 140,60 140,60 C140,60 133.5,53 128,47.5 C125.5,45.5 122.5,44 119,44 L85,44 C82,44 79.5,46 78,48.5 L71,63 C69,65.5 70,70 70,70 L70,90 C70,93 72,95 75,95 L85,95" />
+
+    <!-- Front wheel: cx=7*5+60=95, cy=17*5+10=95, r=2*5=10 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M95,95 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0" />
+
+    <!-- Wheel gap: x1=9*5+60=105, x2=15*5+60=135, y=95 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M105,95 L135,95" />
+
+    <!-- Rear wheel: cx=17*5+60=145, cy=95, r=10 -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#BDBDBD"
+        android:strokeWidth="2"
+        android:strokeLineCap="round"
+        android:pathData="M145,95 m-10,0 a10,10 0 1,0 20,0 a10,10 0 1,0 -20,0" />
+
+</vector>
+

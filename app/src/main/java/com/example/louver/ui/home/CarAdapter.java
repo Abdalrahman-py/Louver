@@ -88,6 +88,15 @@ public class CarAdapter extends ListAdapter<CarEntity, CarAdapter.VH> {
                     car.seats, car.transmission, car.fuelType));
             binding.availability.setText(car.isAvailable ? "Available" : "Not available");
             binding.carRating.setText(formatRating(rating));
+
+            // Show placeholder when no real image URL is available
+            if (CarImageUtils.isPlaceholder(car.mainImageUrl)) {
+                binding.carImage.setImageResource(com.example.louver.R.drawable.ic_car_placeholder);
+            } else {
+                // Real URL present — set as tag for future Glide integration
+                binding.carImage.setImageResource(com.example.louver.R.drawable.ic_car_placeholder);
+                binding.carImage.setTag(car.mainImageUrl);
+            }
         }
 
         private String formatRating(ReviewDao.RatingSummary rating) {

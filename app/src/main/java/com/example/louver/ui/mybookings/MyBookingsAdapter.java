@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.louver.R;
 import com.example.louver.databinding.ItemBookingBinding;
 import com.example.louver.data.converter.BookingStatus;
-import com.example.louver.data.entity.BookingEntity;
+import com.example.louver.data.relation.BookingFullDetails;
+import com.example.louver.ui.home.CarImageUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -18,9 +20,10 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.function.Consumer;
 
-public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdapter.VH> {
+public class MyBookingsAdapter extends ListAdapter<BookingFullDetails, MyBookingsAdapter.VH> {
 
-    private static final SimpleDateFormat DATE_TIME_FORMAT = new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US);
+    private static final SimpleDateFormat DATE_TIME_FORMAT =
+            new SimpleDateFormat("MMM dd, yyyy HH:mm", Locale.US);
     private final Consumer<Long> onCancelClick;
 
     public MyBookingsAdapter(Consumer<Long> onCancelClick) {
@@ -54,20 +57,33 @@ public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdap
             this.onCancelClick = onCancelClick;
         }
 
-        void bind(BookingEntity booking) {
-            binding.tvCarId.setText("Car ID: " + booking.carId);
-            binding.tvPickup.setText("Pickup: " + DATE_TIME_FORMAT.format(new Date(booking.pickupAt)));
-            binding.tvReturn.setText("Return: " + DATE_TIME_FORMAT.format(new Date(booking.returnAt)));
-            binding.tvDays.setText("Days: " + booking.daysCount);
-            binding.tvTotal.setText(String.format(Locale.US, "Total: $%.2f", booking.totalPrice));
-            binding.tvStatus.setText("Status: " + booking.status.name());
+        void bind(BookingFullDetails details) {
+            // Car name (falls back to "Car" if null)
+            String carName = (details.car != null && details.car.name != null)
+                    ? details.car.name : "Car";
+            binding.tvCarName.setText(carName);
+
+            // Car image — placeholder logic
+            String imageUrl = details.car != null ? details.car.mainImageUrl : null;
+            if (CarImageUtils.isPlaceholder(imageUrl)) {
+                binding.ivCarImage.setImageResource(R.drawable.ic_car_placeholder);
+            } else {
+                binding.ivCarImage.setImageResource(R.drawable.ic_car_placeholder);
+                binding.ivCarImage.setTag(imageUrl);
+            }
+
+            binding.tvPickup.setText("Pickup: " + DATE_TIME_FORMAT.format(new Date(details.booking.pickupAt)));
+            binding.tvReturn.setText("Return: " + DATE_TIME_FORMAT.format(new Date(details.booking.returnAt)));
+            binding.tvDays.setText("Days: " + details.booking.daysCount);
+            binding.tvTotal.setText(String.format(Locale.US, "Total: $%.2f", details.booking.totalPrice));
+            binding.tvStatus.setText("Status: " + details.booking.status.name());
 
             // Show cancel button only for ACTIVE bookings
-            if (booking.status == BookingStatus.ACTIVE) {
+            if (details.booking.status == BookingStatus.ACTIVE) {
                 binding.btnCancel.setVisibility(android.view.View.VISIBLE);
                 binding.btnCancel.setOnClickListener(v -> {
                     if (onCancelClick != null) {
-                        onCancelClick.accept(booking.id);
+                        onCancelClick.accept(details.booking.id);
                     }
                 });
             } else {
@@ -76,24 +92,27 @@ public class MyBookingsAdapter extends ListAdapter<BookingEntity, MyBookingsAdap
         }
     }
 
-    private static final DiffUtil.ItemCallback<BookingEntity> DIFF =
-            new DiffUtil.ItemCallback<BookingEntity>() {
+    private static final DiffUtil.ItemCallback<BookingFullDetails> DIFF =
+            new DiffUtil.ItemCallback<BookingFullDetails>() {
                 @Override
-                public boolean areItemsTheSame(@NonNull BookingEntity oldItem, @NonNull BookingEntity newItem) {
-                    return oldItem.id == newItem.id;
+                public boolean areItemsTheSame(@NonNull BookingFullDetails oldItem,
+                                               @NonNull BookingFullDetails newItem) {
+                    return oldItem.booking.id == newItem.booking.id;
                 }
 
                 @Override
-                public boolean areContentsTheSame(@NonNull BookingEntity oldItem, @NonNull BookingEntity newItem) {
-                    return oldItem.id == newItem.id
-                            && oldItem.userId == newItem.userId
-                            && oldItem.carId == newItem.carId
-                            && oldItem.pickupAt == newItem.pickupAt
-                            && oldItem.returnAt == newItem.returnAt
-                            && oldItem.daysCount == newItem.daysCount
-                            && oldItem.totalPrice == newItem.totalPrice
-                            && Objects.equals(oldItem.status, newItem.status);
+                public boolean areContentsTheSame(@NonNull BookingFullDetails oldItem,
+                                                  @NonNull BookingFullDetails newItem) {
+                    return oldItem.booking.id == newItem.booking.id
+                            && oldItem.booking.carId == newItem.booking.carId
+                            && oldItem.booking.pickupAt == newItem.booking.pickupAt
+                            && oldItem.booking.returnAt == newItem.booking.returnAt
+                            && oldItem.booking.daysCount == newItem.booking.daysCount
+                            && oldItem.booking.totalPrice == newItem.booking.totalPrice
+                            && Objects.equals(oldItem.booking.status, newItem.booking.status)
+                            && Objects.equals(
+                                    oldItem.car != null ? oldItem.car.name : null,
+                                    newItem.car != null ? newItem.car.name : null);
                 }
             };
 }
-

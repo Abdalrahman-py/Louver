@@ -89,7 +89,7 @@ public final class SeedData {
                 5,
                 7.8,
                 "Comfortable family sedan with great reliability.",
-                "https://example.com/cars/camry_main.jpg",
+                "",
                 now
         )));
 
@@ -105,7 +105,7 @@ public final class SeedData {
                 5,
                 7.5,
                 "Spacious sedan ideal for city and highway trips.",
-                "https://example.com/cars/accord_main.jpg",
+                "",
                 now
         )));
 
@@ -121,7 +121,7 @@ public final class SeedData {
                 5,
                 6.5,
                 "Popular SUV with efficient hybrid option and roomy interior.",
-                "https://example.com/cars/rav4_main.jpg",
+                "",
                 now
         )));
 
@@ -137,7 +137,7 @@ public final class SeedData {
                 7,
                 8.2,
                 "7-seater SUV for family trips and extra luggage space.",
-                "https://example.com/cars/xtrail_main.jpg",
+                "",
                 now
         )));
 
@@ -153,7 +153,7 @@ public final class SeedData {
                 4,
                 5.4,
                 "Affordable compact car, easy to park and very economical.",
-                "https://example.com/cars/i10_main.jpg",
+                "",
                 now
         )));
 
@@ -169,7 +169,7 @@ public final class SeedData {
                 4,
                 5.8,
                 "Small city car with great fuel economy.",
-                "https://example.com/cars/picanto_main.jpg",
+                "",
                 now
         )));
 
@@ -185,7 +185,7 @@ public final class SeedData {
                 5,
                 8.8,
                 "Premium luxury sedan with advanced comfort features.",
-                "https://example.com/cars/eclass_main.jpg",
+                "",
                 now
         )));
 
@@ -201,7 +201,7 @@ public final class SeedData {
                 5,
                 8.5,
                 "Executive sedan with sporty feel and high-end interior.",
-                "https://example.com/cars/bmw5_main.jpg",
+                "",
                 now
         )));
 
@@ -217,7 +217,7 @@ public final class SeedData {
                 4,
                 12.5,
                 "Iconic sports car with powerful performance.",
-                "https://example.com/cars/mustang_main.jpg",
+                "",
                 now
         )));
 
@@ -233,17 +233,16 @@ public final class SeedData {
                 5,
                 null,
                 "Fully electric sedan with long range and fast acceleration.",
-                "https://example.com/cars/model3_main.jpg",
+                "",
                 now
         )));
 
-        // 3) Car images: exactly 2 per car (20 total)
+        // 3) Car images: 2 entries per car with empty URLs (placeholder)
         List<CarImageEntity> images = new ArrayList<>();
         for (int i = 0; i < carIds.size(); i++) {
             long carId = carIds.get(i);
-            int carNumber = i + 1;
-            images.add(new CarImageEntity(carId, "https://example.com/cars/" + carNumber + "_1.jpg", 1));
-            images.add(new CarImageEntity(carId, "https://example.com/cars/" + carNumber + "_2.jpg", 2));
+            images.add(new CarImageEntity(carId, "", 1));
+            images.add(new CarImageEntity(carId, "", 2));
         }
         db.carImageDao().insertAll(images);
 

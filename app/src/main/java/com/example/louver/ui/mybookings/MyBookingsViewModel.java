@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
 import com.example.louver.data.auth.SessionManager;
-import com.example.louver.data.entity.BookingEntity;
+import com.example.louver.data.relation.BookingFullDetails;
 import com.example.louver.data.repository.BookingRepository;
 import com.example.louver.data.repository.CancellationResult;
 import com.example.louver.data.repository.DbCallback;
@@ -18,7 +18,7 @@ public class MyBookingsViewModel extends ViewModel {
 
     private final BookingRepository bookingRepository;
     private final SessionManager sessionManager;
-    private final LiveData<List<BookingEntity>> bookings;
+    private final LiveData<List<BookingFullDetails>> bookings;
 
     private final MutableLiveData<String> cancelResultLD = new MutableLiveData<>();
     private final MutableLiveData<Boolean> isCancellingLD = new MutableLiveData<>(false);
@@ -32,16 +32,16 @@ public class MyBookingsViewModel extends ViewModel {
 
         long userId = sessionManager.getUserId();
         if (userId > 0) {
-            this.bookings = bookingRepository.getBookingsForUser(userId);
+            this.bookings = bookingRepository.getBookingsFullDetailsForUser(userId);
         } else {
-            MutableLiveData<List<BookingEntity>> emptyBookings = new MutableLiveData<>();
+            MutableLiveData<List<BookingFullDetails>> emptyBookings = new MutableLiveData<>();
             emptyBookings.setValue(Collections.emptyList());
             this.bookings = emptyBookings;
         }
     }
 
     @NonNull
-    public LiveData<List<BookingEntity>> getBookings() {
+    public LiveData<List<BookingFullDetails>> getBookings() {
         return bookings;
     }
 
@@ -71,4 +71,3 @@ public class MyBookingsViewModel extends ViewModel {
         });
     }
 }
-

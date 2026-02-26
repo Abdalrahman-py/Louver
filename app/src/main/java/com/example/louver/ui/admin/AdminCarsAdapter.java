@@ -9,8 +9,10 @@ import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.louver.R;
 import com.example.louver.data.entity.CarEntity;
 import com.example.louver.databinding.ItemCarBinding;
+import com.example.louver.ui.home.CarImageUtils;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -73,6 +75,14 @@ public class AdminCarsAdapter extends ListAdapter<CarEntity, AdminCarsAdapter.VH
                     car.seats, car.transmission, car.fuelType));
             binding.availability.setText(car.isAvailable ? "Available" : "Not available");
             binding.carRating.setText(String.format(Locale.US, "ID: %d", car.id));
+
+            // Placeholder image logic
+            if (CarImageUtils.isPlaceholder(car.mainImageUrl)) {
+                binding.carImage.setImageResource(R.drawable.ic_car_placeholder);
+            } else {
+                binding.carImage.setImageResource(R.drawable.ic_car_placeholder);
+                binding.carImage.setTag(car.mainImageUrl);
+            }
         }
     }
 
