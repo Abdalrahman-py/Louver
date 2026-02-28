@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center"
+    android:paddingStart="40dp"
+    android:paddingEnd="40dp"
+    android:paddingBottom="32dp"
+    android:paddingTop="48dp">
+
+    <ImageView
+        android:id="@+id/ivSlideIcon"
+        android:layout_width="140dp"
+        android:layout_height="140dp"
+        android:layout_marginBottom="40dp"
+        android:contentDescription="@string/slide_illustration_desc"
+        android:src="@drawable/ic_onboarding_welcome" />
+
+    <TextView
+        android:id="@+id/tvSlideTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="Title"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+        android:textStyle="bold"
+        android:textColor="@color/color_louver_primary_text"
+        android:layout_marginBottom="16dp"/>
+
+    <TextView
+        android:id="@+id/tvSlideDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        tools:text="Description"
+        android:textAppearance="@style/TextAppearance.Material3.BodyLarge"
+        android:textColor="@color/color_louver_secondary_text"
+        android:lineSpacingMultiplier="1.4"/>
+
+</LinearLayout>
+
+

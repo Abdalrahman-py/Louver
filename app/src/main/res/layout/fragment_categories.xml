@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceVariant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="12dp">
+
+        <!-- Header -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Browse by Category"
+            android:textAppearance="@style/TextAppearance.Material3.TitleLarge"
+            android:textStyle="bold"
+            android:layout_marginBottom="12dp"/>
+
+        <!-- Category Grid (3 columns of compact cards) -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/categoriesGrid"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false" />
+
+        <!-- Divider -->
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginBottom="10dp"
+            android:background="?attr/colorSurfaceVariant"/>
+
+        <!-- Active filter label -->
+        <TextView
+            android:id="@+id/tvFilterLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="All Cars"
+            android:textAppearance="@style/TextAppearance.Material3.TitleSmall"
+            android:textStyle="bold"
+            android:layout_marginBottom="6dp"/>
+
+        <!-- Empty state -->
+        <TextView
+            android:id="@+id/tvEmptyCars"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="No cars found in this category."
+            android:textAppearance="@style/TextAppearance.Material3.BodyMedium"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:gravity="center"
+            android:paddingVertical="20dp"
+            android:visibility="gone"/>
+
+        <!-- Cars list -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/carsRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:clipToPadding="false" />
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>

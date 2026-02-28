@@ -8,7 +8,6 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
@@ -26,11 +25,11 @@ public class AdminCarsFragment extends Fragment {
     private AdminCarsViewModel viewModel;
     private AdminCarsAdapter adapter;
 
-    public AdminCarsFragment() {}
+    public AdminCarsFragment() {
+    }
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
-                             @Nullable Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentAdminCarsBinding.inflate(inflater, container, false);
         return binding.getRoot();
     }
@@ -46,10 +45,7 @@ public class AdminCarsFragment extends Fragment {
             return;
         }
 
-        viewModel = new AdminCarsViewModel(
-                RepositoryProvider.cars(requireContext()),
-                RepositoryProvider.bookings(requireContext())
-        );
+        viewModel = new AdminCarsViewModel(RepositoryProvider.cars(requireContext()), RepositoryProvider.bookings(requireContext()));
 
         setupRecycler();
         setupFab();
@@ -57,10 +53,7 @@ public class AdminCarsFragment extends Fragment {
     }
 
     private void setupRecycler() {
-        adapter = new AdminCarsAdapter(
-                car -> openFormFragment(car),
-                car -> showDeleteConfirmation(car)
-        );
+        adapter = new AdminCarsAdapter(car -> openFormFragment(car), car -> showDeleteConfirmation(car));
         binding.recyclerCars.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerCars.setAdapter(adapter);
     }
@@ -84,20 +77,19 @@ public class AdminCarsFragment extends Fragment {
 
     private void openFormFragment(@Nullable CarEntity car) {
         AdminCarFormFragment fragment = AdminCarFormFragment.newInstance(car);
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, fragment)
-                .addToBackStack(null)
-                .commit();
+        getParentFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).addToBackStack(null).commit();
     }
 
     private void showDeleteConfirmation(CarEntity car) {
-        new AlertDialog.Builder(requireContext())
-                .setTitle(R.string.admin_delete_car_title)
-                .setMessage(getString(R.string.admin_delete_car_message, car.name, car.model))
-                .setNegativeButton(R.string.admin_action_cancel, null)
-                .setPositiveButton(R.string.admin_action_delete, (dialog, which) -> viewModel.deleteCar(car))
-                .show();
+        // Check for active/approved bookings first, then show the right dialog
+        viewModel.checkActiveBookingsBeforeDelete(car, hasActive -> {
+            if (getActivity() == null || !isAdded()) return;
+            requireActivity().runOnUiThread(() -> {
+                String message = hasActive ? getString(R.string.admin_delete_car_active_warning, car.name, car.model) : getString(R.string.admin_delete_car_message, car.name, car.model);
+
+                new androidx.appcompat.app.AlertDialog.Builder(requireContext()).setTitle(R.string.admin_delete_car_title).setMessage(message).setNegativeButton(R.string.admin_action_cancel, null).setPositiveButton(R.string.admin_action_delete, (dialog, which) -> viewModel.deleteCar(car)).show();
+            });
+        });
     }
 
     @Override

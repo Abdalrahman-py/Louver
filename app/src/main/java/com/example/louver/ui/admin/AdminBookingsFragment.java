@@ -43,14 +43,26 @@ public class AdminBookingsFragment extends Fragment {
         }
 
         viewModel = new AdminBookingsViewModel(RepositoryProvider.bookings(requireContext()));
-        adapter = new AdminBookingsAdapter();
+
+        adapter = new AdminBookingsAdapter(item -> openDetail(item.booking.id));
+
         binding.recyclerBookings.setLayoutManager(new LinearLayoutManager(requireContext()));
         binding.recyclerBookings.setAdapter(adapter);
 
         viewModel.getAllBookings().observe(getViewLifecycleOwner(), bookings -> {
             adapter.submitList(bookings);
-            binding.emptyBookings.setVisibility(bookings == null || bookings.isEmpty() ? View.VISIBLE : View.GONE);
+            binding.emptyBookings.setVisibility(
+                    bookings == null || bookings.isEmpty() ? View.VISIBLE : View.GONE);
         });
+    }
+
+    private void openDetail(long bookingId) {
+        AdminBookingDetailFragment detail = AdminBookingDetailFragment.newInstance(bookingId);
+        getParentFragmentManager()
+                .beginTransaction()
+                .replace(R.id.fragmentContainer, detail)
+                .addToBackStack(null)
+                .commit();
     }
 
     @Override

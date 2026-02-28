@@ -77,11 +77,11 @@ public class AddReviewViewModel extends ViewModel {
         }
 
         reviewRepository.upsertReview(userId, carId, stars, trimmedComment, success -> {
-            isLoading.setValue(false);
+            isLoading.postValue(false);
             if (success) {
-                saveResult.setValue(new SaveReviewResult(true, "Review saved successfully"));
+                saveResult.postValue(new SaveReviewResult(true, "Review saved successfully"));
             } else {
-                saveResult.setValue(new SaveReviewResult(false, "Failed to save review"));
+                saveResult.postValue(new SaveReviewResult(false, "Failed to save review"));
             }
         });
     }

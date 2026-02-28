@@ -30,6 +30,9 @@ public interface CarDao {
     @Delete
     void delete(CarEntity car);
 
+    @Query("SELECT COUNT(*) FROM cars")
+    LiveData<Integer> countAll();
+
     @Query("SELECT * FROM cars ORDER BY createdAt DESC")
     LiveData<List<CarEntity>> getAllCars();
 
@@ -88,4 +91,29 @@ public interface CarDao {
     // For background-thread / synchronous example usage only
     @Query("SELECT * FROM cars WHERE id = :carId LIMIT 1")
     CarEntity getCarByIdNow(long carId);
+
+    /**
+     * Full combined filter + name/model search.
+     * Used by FilteredCarsFragment when the user types in the search bar.
+     */
+    @Query("SELECT * FROM cars WHERE " +
+            "(:searchQuery = '' OR name LIKE '%' || :searchQuery || '%' OR model LIKE '%' || :searchQuery || '%') AND " +
+            "(:categoryId IS NULL OR categoryId = :categoryId) AND " +
+            "(:minPrice IS NULL OR dailyPrice >= :minPrice) AND " +
+            "(:maxPrice IS NULL OR dailyPrice <= :maxPrice) AND " +
+            "(:year IS NULL OR year = :year) AND " +
+            "(:transmission IS NULL OR transmission = :transmission) AND " +
+            "(:seats IS NULL OR seats = :seats) AND " +
+            "(:availableOnly IS NULL OR isAvailable = :availableOnly) " +
+            "ORDER BY createdAt DESC")
+    LiveData<List<CarEntity>> filterCarsWithSearch(
+            String searchQuery,
+            Long categoryId,
+            Double minPrice,
+            Double maxPrice,
+            Integer year,
+            String transmission,
+            Integer seats,
+            Boolean availableOnly
+    );
 }

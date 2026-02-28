@@ -99,6 +99,19 @@ public class AdminCarsViewModel extends ViewModel {
         });
     }
 
+    /**
+     * Checks whether the car has any ACTIVE or APPROVED bookings,
+     * then posts the result to the provided callback on the main thread.
+     */
+    public void checkActiveBookingsBeforeDelete(CarEntity car,
+                                                DbCallback callback) {
+        bookingRepository.hasActiveBookingsForCar(car.id, callback::onResult);
+    }
+
+    public interface DbCallback {
+        void onResult(boolean hasActive);
+    }
+
     private String validate(
             String categoryId,
             String name,

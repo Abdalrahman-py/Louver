@@ -38,4 +38,7 @@ public interface UserDao {
 
     @Query("SELECT COUNT(*) FROM users")
     int countUsers();
+
+    @Query("SELECT COUNT(*) FROM users")
+    LiveData<Integer> countAllUsersLive();
 }

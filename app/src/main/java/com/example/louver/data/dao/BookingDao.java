@@ -69,4 +69,25 @@ public interface BookingDao {
 
     @Query("SELECT * FROM bookings WHERE id = :bookingId LIMIT 1")
     BookingEntity getBookingByIdNow(long bookingId);
+
+    @Query("SELECT COUNT(*) FROM bookings")
+    LiveData<Integer> countAll();
+
+    @Query("SELECT COUNT(*) FROM bookings WHERE status = :status")
+    LiveData<Integer> countByStatus(String status);
+
+    @Query("SELECT CASE WHEN COUNT(*) > 0 THEN 1 ELSE 0 END FROM bookings " +
+            "WHERE carId = :carId AND (status = 'ACTIVE' OR status = 'APPROVED')")
+    int hasActiveBookingsForCarInternal(long carId);
+
+    default boolean hasActiveBookingsForCar(long carId) {
+        return hasActiveBookingsForCarInternal(carId) == 1;
+    }
+
+    @Query("UPDATE bookings SET status = :status, updatedAt = :updatedAt WHERE id = :bookingId")
+    void updateStatus(long bookingId, String status, long updatedAt);
+
+    @Transaction
+    @Query("SELECT * FROM bookings WHERE id = :bookingId LIMIT 1")
+    LiveData<BookingFullDetails> getBookingFullDetailsById(long bookingId);
 }

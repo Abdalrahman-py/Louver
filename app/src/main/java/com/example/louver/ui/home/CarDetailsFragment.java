@@ -57,7 +57,12 @@ public class CarDetailsFragment extends Fragment {
         setupButtons();
 
         if (carId >= 0) {
-            viewModel.loadCar(carId);
+            // Try to use the pre-fetched CarEntity passed by the caller to avoid an extra Room query
+            com.example.louver.data.entity.CarEntity passedCar = null;
+            if (getArguments() != null) {
+                passedCar = getArguments().getParcelable("car");
+            }
+            viewModel.loadCar(carId, passedCar);
         }
 
         observeData();
@@ -74,30 +79,25 @@ public class CarDetailsFragment extends Fragment {
             BookingFragment bookingFragment = new BookingFragment();
             Bundle args = new Bundle();
             args.putLong("carId", carId);
+            com.example.louver.data.entity.CarEntity cachedCar = viewModel.getCar().getValue();
+            if (cachedCar != null) args.putParcelable("car", cachedCar);
             bookingFragment.setArguments(args);
-
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(getId(), bookingFragment)
-                    .addToBackStack(null)
-                    .commit();
+            if (getActivity() instanceof com.example.louver.MainActivity) {
+                ((com.example.louver.MainActivity) getActivity()).navigateTo(bookingFragment);
+            }
         });
 
-        binding.btnFavorite.setOnClickListener(v -> {
-            favoritesViewModel.toggleFavorite(carId, currentIsFavorite);
-        });
+        binding.btnFavorite.setOnClickListener(v ->
+                favoritesViewModel.toggleFavorite(carId, currentIsFavorite));
 
         binding.btnWriteReview.setOnClickListener(v -> {
             AddReviewFragment addReviewFragment = new AddReviewFragment();
             Bundle args = new Bundle();
             args.putLong("carId", carId);
             addReviewFragment.setArguments(args);
-
-            getParentFragmentManager()
-                    .beginTransaction()
-                    .replace(getId(), addReviewFragment)
-                    .addToBackStack(null)
-                    .commit();
+            if (getActivity() instanceof com.example.louver.MainActivity) {
+                ((com.example.louver.MainActivity) getActivity()).navigateTo(addReviewFragment);
+            }
         });
     }
 

@@ -43,6 +43,16 @@ public class BookingViewModel extends ViewModel {
     }
 
     /**
+     * Directly set an already-fetched car entity (avoids a Room query).
+     * Called when the caller passes the full CarEntity in the fragment arguments.
+     */
+    public void setSelectedCar(com.example.louver.data.entity.CarEntity car) {
+        MutableLiveData<com.example.louver.data.entity.CarEntity> ld = new MutableLiveData<>();
+        ld.setValue(car);
+        selectedCarLD = ld;
+    }
+
+    /**
      * Load car details by carId.
      */
     public void loadCar(long carId) {

@@ -44,6 +44,31 @@ public class BookingRepository {
         return db.bookingDao().getAllBookingsFullDetails();
     }
 
+    public LiveData<Integer> countAllBookings() {
+        return db.bookingDao().countAll();
+    }
+
+    public LiveData<Integer> countBookingsByStatus(String status) {
+        return db.bookingDao().countByStatus(status);
+    }
+
+    public void hasActiveBookingsForCar(long carId, DbCallback<Boolean> callback) {
+        AppDatabase.DB_EXECUTOR.execute(() -> {
+            boolean result = db.bookingDao().hasActiveBookingsForCar(carId);
+            if (callback != null) callback.onComplete(result);
+        });
+    }
+
+    public void updateBookingStatus(long bookingId, BookingStatus status) {
+        AppDatabase.DB_EXECUTOR.execute(() ->
+                db.bookingDao().updateStatus(bookingId, status.name(), System.currentTimeMillis())
+        );
+    }
+
+    public LiveData<BookingFullDetails> getBookingFullDetailsById(long bookingId) {
+        return db.bookingDao().getBookingFullDetailsById(bookingId);
+    }
+
     public void createBooking(BookingEntity booking) {
         AppDatabase.DB_EXECUTOR.execute(() -> db.bookingDao().insert(booking));
     }

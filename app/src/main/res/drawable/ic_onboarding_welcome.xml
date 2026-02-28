@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Circle background -->
+    <path android:fillColor="#EFF6FF" android:pathData="M60,10 A50,50 0 1,1 59.99,10 Z"/>
+    <!-- Car silhouette body -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:strokeLineJoin="round"
+        android:pathData="M30,70 L30,58 C30,54 32,50 36,48 L48,36 C50,34 53,33 56,33 L74,33 C77,33 80,35 82,37 L90,48 C93,50 94,54 94,58 L94,70 C94,72 92,74 90,74 L34,74 C32,74 30,72 30,70 Z"/>
+    <!-- Front wheel -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="3.5"
+        android:pathData="M46,74 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0"/>
+    <!-- Rear wheel -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="3.5"
+        android:pathData="M82,74 m-9,0 a9,9 0 1,0 18,0 a9,9 0 1,0 -18,0"/>
+    <!-- Window -->
+    <path
+        android:fillColor="#DBEAFE"
+        android:pathData="M54,36 L44,52 L80,52 L74,36 Z"/>
+    <!-- Stars (accent) -->
+    <path android:fillColor="#2563EB" android:pathData="M20,25 L22,30 L27,30 L23,33 L25,38 L20,35 L15,38 L17,33 L13,30 L18,30 Z"/>
+    <path android:fillColor="#93C5FD" android:pathData="M96,18 L97.5,22 L101,22 L98.5,24.5 L99.5,28 L96,26 L92.5,28 L93.5,24.5 L91,22 L94.5,22 Z"/>
+</vector>
+

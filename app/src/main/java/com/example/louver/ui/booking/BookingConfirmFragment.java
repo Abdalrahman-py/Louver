@@ -4,12 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.core.content.ContextCompat;
-import androidx.lifecycle.ViewModelProvider;
 
 import com.example.louver.R;
 import com.example.louver.databinding.FragmentBookingConfirmBinding;
@@ -104,17 +104,10 @@ public class BookingConfirmFragment extends Fragment {
             if (result == null) return;
 
             if (result.success) {
-                String message = String.format(
-                        Locale.US,
-                        "Booking Confirmed!\nID: %d\nDays: %d\nTotal: $%.2f",
-                        result.bookingId,
-                        result.daysCount,
-                        result.totalPrice
-                );
-                binding.tvStatusConfirm.setText(message);
-                binding.tvStatusConfirm.setTextColor(ContextCompat.getColor(requireContext(), R.color.color_louver_accent));
+                Toast.makeText(requireContext(),
+                        "Booking confirmed successfully!", Toast.LENGTH_SHORT).show();
 
-                // Navigate back after success
+                // Pop BookingConfirmFragment and BookingFragment, returning to the previous screen
                 getParentFragmentManager().popBackStack();
                 getParentFragmentManager().popBackStack();
             } else {

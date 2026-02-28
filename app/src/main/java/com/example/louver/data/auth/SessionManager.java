@@ -12,6 +12,9 @@ public class SessionManager {
     private static final String KEY_USER_ID = "logged_in_user_id";
     private static final String KEY_EMAIL = "logged_in_email";
     private static final String KEY_ROLE = "logged_in_role";
+    private static final String KEY_ONBOARDING_SHOWN = "onboarding_shown";
+    private static final String KEY_DARK_MODE = "dark_mode_enabled";
+    private static final String KEY_LANGUAGE = "language_code";
 
     private final SharedPreferences prefs;
 
@@ -67,5 +70,31 @@ public class SessionManager {
     @Nullable
     public String getUserRole() {
         return prefs.getString(KEY_ROLE, null);
+    }
+
+    public boolean isOnboardingShown() {
+        return prefs.getBoolean(KEY_ONBOARDING_SHOWN, false);
+    }
+
+    public void setOnboardingShown() {
+        prefs.edit().putBoolean(KEY_ONBOARDING_SHOWN, true).apply();
+    }
+
+    public boolean isDarkModeEnabled() {
+        return prefs.getBoolean(KEY_DARK_MODE, false);
+    }
+
+    public void setDarkModeEnabled(boolean enabled) {
+        prefs.edit().putBoolean(KEY_DARK_MODE, enabled).apply();
+    }
+
+    /** Returns the saved language code, defaulting to "en". */
+    @NonNull
+    public String getLanguageCode() {
+        return prefs.getString(KEY_LANGUAGE, "en");
+    }
+
+    public void setLanguageCode(@NonNull String code) {
+        prefs.edit().putString(KEY_LANGUAGE, code).apply();
     }
 }

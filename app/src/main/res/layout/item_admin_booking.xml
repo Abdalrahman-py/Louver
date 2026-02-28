@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     style="@style/Widget.Louver.Card"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="12dp">
+    android:layout_marginBottom="12dp"
+    android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -11,11 +14,52 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <TextView android:id="@+id/tvBookingUser" android:layout_width="match_parent" android:layout_height="wrap_content" android:textStyle="bold" />
-        <TextView android:id="@+id/tvBookingCar" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="?attr/colorOnSurfaceVariant" />
-        <TextView android:id="@+id/tvBookingDates" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="?attr/colorOnSurfaceVariant" />
-        <TextView android:id="@+id/tvBookingPrice" android:layout_width="match_parent" android:layout_height="wrap_content" />
-        <TextView android:id="@+id/tvBookingStatus" android:layout_width="match_parent" android:layout_height="wrap_content" android:textStyle="bold" />
+        <!-- Top row: user name + status chip -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="4dp">
+
+            <TextView
+                android:id="@+id/tvBookingUser"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.Material3.BodyLarge"/>
+
+            <com.google.android.material.chip.Chip
+                android:id="@+id/chipStatus"
+                style="@style/Widget.Material3.Chip.Assist"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="11sp"
+                app:chipMinHeight="28dp"
+                android:clickable="false"
+                android:focusable="false"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tvBookingCar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
+
+        <TextView
+            android:id="@+id/tvBookingDates"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="?attr/colorOnSurfaceVariant"
+            android:layout_marginTop="2dp"/>
+
+        <TextView
+            android:id="@+id/tvBookingPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:textStyle="bold"/>
 
     </LinearLayout>
 

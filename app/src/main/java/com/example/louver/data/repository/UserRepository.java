@@ -27,6 +27,10 @@ public class UserRepository {
         return db.userDao().getAll();
     }
 
+    public LiveData<Integer> countAllUsers() {
+        return db.userDao().countAllUsersLive();
+    }
+
     public void insert(UserEntity user) {
         AppDatabase.DB_EXECUTOR.execute(() -> db.userDao().insert(user));
     }

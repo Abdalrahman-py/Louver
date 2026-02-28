@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="color_louver_background">#FFFFFF</color>
-    <color name="color_louver_surface">#F6F7F9</color>
-    <color name="color_louver_surface_container">#FFFFFF</color>
-    <color name="color_louver_primary_text">#111111</color>
-    <color name="color_louver_secondary_text">#6B7280</color>
-    <color name="color_louver_accent">#2563EB</color>
-    <color name="color_louver_accent_container">#EFF6FF</color>
-    <color name="color_louver_error">#DC2626</color>
+    <color name="color_louver_background">#121212</color>
+    <color name="color_louver_surface">#1E1E1E</color>
+    <color name="color_louver_surface_container">#2A2A2A</color>
+    <color name="color_louver_primary_text">#F1F1F1</color>
+    <color name="color_louver_secondary_text">#9CA3AF</color>
+    <color name="color_louver_accent">#60A5FA</color>
+    <color name="color_louver_accent_container">#1E3A5F</color>
+    <color name="color_louver_error">#F87171</color>
 
     <color name="color_louver_primary">@color/color_louver_primary_text</color>
     <color name="color_louver_primary_dark">@color/color_louver_primary_text</color>
     <color name="color_louver_primary_light">@color/color_louver_surface_container</color>
     <color name="color_louver_secondary">@color/color_louver_accent</color>
     <color name="color_louver_secondary_dark">@color/color_louver_accent</color>
-    <color name="color_louver_surface_variant">#E5E7EB</color>
-    <color name="color_louver_surface_variant_dark">#E5E7EB</color>
-    <color name="color_louver_on_primary">#FFFFFF</color>
-    <color name="color_louver_on_secondary">#FFFFFF</color>
+    <color name="color_louver_surface_variant">#374151</color>
+    <color name="color_louver_surface_variant_dark">#374151</color>
+    <color name="color_louver_on_primary">#121212</color>
+    <color name="color_louver_on_secondary">#121212</color>
+    <color name="admin_delete_text">@color/color_louver_error</color>
 </resources>

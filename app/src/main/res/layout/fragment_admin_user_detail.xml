@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorSurfaceVariant">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="User Profile"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineSmall"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
+
+        <!-- Profile card -->
+        <com.google.android.material.card.MaterialCardView
+            style="@style/Widget.Louver.Card"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView android:id="@+id/tvUserDetailName"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+                    android:textStyle="bold" android:layout_marginBottom="4dp"/>
+
+                <TextView android:id="@+id/tvUserDetailEmail"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:textColor="?attr/colorOnSurfaceVariant" android:layout_marginBottom="4dp"/>
+
+                <TextView android:id="@+id/tvUserDetailPhone"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:textColor="?attr/colorOnSurfaceVariant" android:layout_marginBottom="4dp"/>
+
+                <TextView android:id="@+id/tvUserDetailRole"
+                    android:layout_width="match_parent" android:layout_height="wrap_content"
+                    android:textColor="?attr/colorOnSurfaceVariant"/>
+
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Booking history label -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_user_bookings_title"
+            android:textAppearance="@style/TextAppearance.Material3.TitleMedium"
+            android:textStyle="bold"
+            android:layout_marginBottom="8dp"/>
+
+        <TextView
+            android:id="@+id/tvEmptyUserBookings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_empty_user_bookings"
+            android:visibility="gone"
+            android:textColor="?attr/colorOnSurfaceVariant"/>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerUserBookings"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"/>
+
+    </LinearLayout>
+
+</androidx.core.widget.NestedScrollView>
+

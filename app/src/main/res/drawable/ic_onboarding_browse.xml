@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="120dp"
+    android:height="120dp"
+    android:viewportWidth="120"
+    android:viewportHeight="120">
+    <!-- Circle background -->
+    <path android:fillColor="#EFF6FF" android:pathData="M60,10 A50,50 0 1,1 59.99,10 Z"/>
+    <!-- Magnifying glass handle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="3.5"
+        android:strokeLineCap="round"
+        android:pathData="M76,76 L90,90"/>
+    <!-- Magnifying glass circle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="3.5"
+        android:pathData="M53,33 m-22,0 a22,22 0 1,0 44,0 a22,22 0 1,0 -44,0"/>
+    <!-- Filter lines inside circle -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#93C5FD"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M43,30 L63,30"/>
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#93C5FD"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M40,37 L66,37"/>
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#93C5FD"
+        android:strokeWidth="2.5"
+        android:strokeLineCap="round"
+        android:pathData="M45,44 L61,44"/>
+    <!-- Filter icon bottom right -->
+    <path
+        android:fillColor="@android:color/transparent"
+        android:strokeColor="#2563EB"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:pathData="M80,62 L100,62 M84,69 L96,69 M88,76 L92,76"/>
+</vector>
+

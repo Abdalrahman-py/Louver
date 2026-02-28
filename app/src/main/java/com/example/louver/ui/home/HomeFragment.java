@@ -17,6 +17,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.example.louver.databinding.FragmentHomeBinding;
 
+import java.util.List;
+
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
@@ -41,7 +43,9 @@ public class HomeFragment extends Fragment {
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        viewModel = new ViewModelProvider(this).get(HomeViewModel.class);
+        // Scope to Activity so the ViewModel survives fragment back-navigation.
+        // welcomeGreeting and cars are already populated on resume — no flicker.
+        viewModel = new ViewModelProvider(requireActivity()).get(HomeViewModel.class);
 
         viewModel.getWelcomeGreeting().observe(getViewLifecycleOwner(), greeting -> {
             binding.tvWelcome.setText(greeting != null ? greeting : "Welcome");
@@ -82,32 +86,30 @@ public class HomeFragment extends Fragment {
 
         carAdapter = new CarAdapter(
                 car -> {
-                    // Navigate to CarDetailsFragment with carId
                     Fragment detailsFragment = new CarDetailsFragment();
-
                     Bundle args = new Bundle();
                     args.putLong("carId", car.id);
+                    args.putParcelable("car", car);
                     detailsFragment.setArguments(args);
-
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .replace(getId(), detailsFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    if (getActivity() instanceof com.example.louver.MainActivity) {
+                        ((com.example.louver.MainActivity) getActivity()).navigateTo(detailsFragment);
+                    }
                 },
                 carId -> {
-                    // Book button: navigate directly to BookingFragment
+                    List<com.example.louver.data.entity.CarEntity> currentList = carAdapter.getCurrentList();
+                    com.example.louver.data.entity.CarEntity carToBook = null;
+                    for (com.example.louver.data.entity.CarEntity c : currentList) {
+                        if (c.id == carId) { carToBook = c; break; }
+                    }
                     Bundle args = new Bundle();
                     args.putLong("carId", carId);
-
-                    com.example.louver.ui.booking.BookingFragment bookingFragment = new com.example.louver.ui.booking.BookingFragment();
+                    if (carToBook != null) args.putParcelable("car", carToBook);
+                    com.example.louver.ui.booking.BookingFragment bookingFragment =
+                            new com.example.louver.ui.booking.BookingFragment();
                     bookingFragment.setArguments(args);
-
-                    getParentFragmentManager()
-                            .beginTransaction()
-                            .replace(getId(), bookingFragment)
-                            .addToBackStack(null)
-                            .commit();
+                    if (getActivity() instanceof com.example.louver.MainActivity) {
+                        ((com.example.louver.MainActivity) getActivity()).navigateTo(bookingFragment);
+                    }
                 }
         );
         binding.carsRecycler.setAdapter(carAdapter);

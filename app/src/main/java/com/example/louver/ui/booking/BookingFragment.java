@@ -63,16 +63,23 @@ public class BookingFragment extends Fragment {
         SessionManager sessionManager = new SessionManager(requireContext());
         viewModel = new BookingViewModel(bookingRepository, sessionManager);
 
-        // Initialize car repository with context
-        viewModel.initCarRepository(requireContext());
+        // Use the pre-fetched CarEntity if the caller passed it — avoids an extra Room query
+        CarEntity passedCar = getArguments() != null
+                ? getArguments().getParcelable("car") : null;
+
+        if (passedCar != null) {
+            viewModel.setSelectedCar(passedCar);
+        } else {
+            // Fallback: initialize repository and load from Room
+            viewModel.initCarRepository(requireContext());
+            viewModel.loadCar(carId);
+        }
 
         setupUI();
         observeViewModel();
     }
 
     private void setupUI() {
-        // Load car details by carId
-        viewModel.loadCar(carId);
 
         // Select pickup date/time
         binding.btnSelectPickup.setOnClickListener(v -> showDateTimePickerForPickup());
@@ -240,11 +247,13 @@ public class BookingFragment extends Fragment {
         BookingConfirmFragment confirmFragment = new BookingConfirmFragment();
         confirmFragment.setArguments(args);
 
-        getParentFragmentManager()
-                .beginTransaction()
-                .replace(getId(), confirmFragment)
-                .addToBackStack(null)
-                .commit();
+        if (getActivity() instanceof com.example.louver.MainActivity) {
+            ((com.example.louver.MainActivity) getActivity()).navigateTo(confirmFragment);
+        } else {
+            getParentFragmentManager().beginTransaction()
+                    .add(R.id.fragmentContainer, confirmFragment)
+                    .addToBackStack(null).commit();
+        }
     }
 
     private void observeViewModel() {
